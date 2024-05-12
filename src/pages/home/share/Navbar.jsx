@@ -119,7 +119,7 @@ export default function Navbar() {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             <li>Profile</li>
                             <li>My added food items</li>
-                            <li>Add a food item</li>
+                            <Link to='/addfood'><li>Add a food item</li></Link>
                             <li>My ordered food items</li>
                             <li onClick={logoutUser}>Logout</li>
                         </ul>
