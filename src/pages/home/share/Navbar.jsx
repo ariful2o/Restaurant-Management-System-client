@@ -2,10 +2,12 @@ import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../../../provider/AuthProvider"
 import logo from '../../../assets/Logo.svg'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Navbar() {
-    const { user } = useContext(AuthContext)
+    const { user, signout } = useContext(AuthContext)
     const [theme, setTheme] = useState('light')
     const links = <>
         <li><Link to='/'>Home</Link></li>
@@ -29,8 +31,20 @@ export default function Navbar() {
     useEffect(() => {
         document.querySelector('html').setAttribute('data-theme', theme);
     }, [theme]);
+
+    const logoutUser = () => {
+        signout()
+            .then(() => {
+                toast.success('Sign Out Sucessfull')
+            }).catch(err => {
+                console.log(err)
+                toast.error(err.message)
+            })
+    }
+
     return (
         <div className="navbar bg-base-100 flex justify-between">
+            <ToastContainer />
             <div className="navbar-start max-w-40">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -95,7 +109,7 @@ export default function Navbar() {
                             </a>
                         </li>
                         <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
+                        <li onClick={logoutUser}><a>Logout</a></li>
                     </ul>
                 </div>
             </div>

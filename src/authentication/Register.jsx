@@ -1,33 +1,57 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { AuthContext } from "../provider/AuthProvider"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { updateProfile } from "firebase/auth";
+import auth from "../firebase/firebase.init";
 
 
 export default function Register() {
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setConfirmShowPassword] = useState(false)
+    const [passWordError, serPassWordError] = useState(null)
     const { registerUser } = useContext(AuthContext)
 
     const handleRegister = (e) => {
         e.preventDefault()
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z@$!%*?&]{8,}$/;
 
         const from = e.currentTarget
         const first_name = from.first_name.value
         const last_name = from.last_name.value
         const email = from.email.value
+        const photo = from.photo.value
         const password = from.password.value
         const confirm_password = from.confirm_password.value
-        const userInfo = { first_name, last_name, email, password, confirm_password }
 
+        if (!passwordRegex.test(password)) {
+            serPassWordError(`Password must at least one uppercase, lowercase, special character (@$!%*?&) and 8 characters long`)
+            return
+        }
+        if (password !== confirm_password) {
+            serPassWordError(`Confirm Password dosen't match`)
+            return
+        }
+        serPassWordError('')
         registerUser(email, password)
-            .then(res => {
+            .then(() => {
                 toast.success('Account created successfully!')
-                // console.log(res.user)
+                updateProfile(auth.currentUser, {
+                    displayName: `${first_name} ${last_name}`, photoURL: photo
+                }).then(() => {
+                    // Profile updated!
+                    // ...
+                }).catch(() => {
+                    // An error occurred
+                    // ...
+                });
             })
             .catch(err => toast.error(err.message))
     }
 
     return (
-        <div className="w-full max-w-2xl p-8 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-20">
+        <div className="w-full max-w-2xl p-8 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-10 md:my-20">
             <ToastContainer />
             <form onSubmit={handleRegister}>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -46,12 +70,30 @@ export default function Register() {
                     <input name="email" type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
                 </div>
                 <div className="mb-6">
-                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                    <input name="password" type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Photo URL</label>
+                    <input name="photo" type="text" id="photo" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://profile_photo.jpg" required />
                 </div>
-                <div className="mb-6">
+                <div className={!passWordError ? "mb-6 relative" : "relative mb-14"}>
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                    <input name="password" type={showPassword ? "text" : "password"} id="password" className={passWordError ? "bg-gray-50 border border-red-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-blue-500" : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"} placeholder="•••••••••" required />
+                    {passWordError && <p className="text-red-600 absolute text-sm">{passWordError}</p>}
+                    <div className="text-white absolute right-4 bottom-3" onClick={() => setShowPassword(!showPassword)}>
+                        {
+                            showPassword ? <FaRegEyeSlash /> : <FaRegEye />
+                        }
+
+                    </div>
+                </div>
+                <div className="mb-6 relative">
                     <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                    <input name="confirm_password" type="password" id="confirm_password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required />
+                    <input name="confirm_password" type={showConfirmPassword ? "text" : "password"} id="confirm_password" className={passWordError ? "bg-gray-50 border border-red-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-blue-500" : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"} placeholder="•••••••••" required />
+
+                    <div className="text-white absolute right-4 bottom-3" onClick={() => setConfirmShowPassword(!showConfirmPassword)}>
+                        {
+                            showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />
+                        }
+
+                    </div>
                 </div>
                 <div className="flex items-start mb-6">
                     <div className="flex items-center h-5">
