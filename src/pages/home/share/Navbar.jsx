@@ -43,8 +43,8 @@ export default function Navbar() {
     }
 
     return (
+            
         <div className="navbar bg-base-100 flex justify-between">
-            <ToastContainer />
             <div className="navbar-start max-w-40">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -62,6 +62,7 @@ export default function Navbar() {
                 <ul className="menu menu-horizontal px-1">
                     {links}
                 </ul>
+                <ToastContainer />
             </div>
             <div className="flex-none navbar-end max-w-32">
                 {/* themeContlor */}
