@@ -11,15 +11,11 @@ export default function Banner() {
                 </div>
                 <div className="text-white max-w-xl mx-auto">
                     <h1 className="text-6xl font-bold font-cormorant">Welcome to<br />Restaurantate</h1>
-                    <p className="py-6 font-josefin">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+                    <p className="py-6 font-josefin">Where Every Bite Tells a Story
+Indulge in Culinary Excellence & Cultural Delights</p>
                     <button className="py-5 px-16 border-2 mt-10 border-[#E1B168]">View Menu</button>
                 </div>
             </div>
         </div>
     )
 }
-
-// https://i.ibb.co/THqCwP8/Photo-1.png
-// https://i.ibb.co/F5c4BXG/Photo-1.jpg
-// https://i.ibb.co/fQFnzdN/Photo.png
-// 

@@ -1,10 +1,10 @@
 import { useContext, useState } from "react"
 import { AuthContext } from "../provider/AuthProvider"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
 import auth from "../firebase/firebase.init";
+import Swal from "sweetalert2";
 
 
 export default function Register() {
@@ -33,10 +33,18 @@ export default function Register() {
             serPassWordError(`Confirm Password dosen't match`)
             return
         }
+
         serPassWordError('')
+
         registerUser(email, password)
             .then(() => {
-                toast.success('Account created successfully!')
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Registion Successfull",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
                 updateProfile(auth.currentUser, {
                     displayName: `${first_name} ${last_name}`, photoURL: photo
                 }).then(() => {
@@ -47,13 +55,21 @@ export default function Register() {
                     // ...
                 });
             })
-            .catch(err => toast.error(err.message))
+            .catch(err => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${err.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+            })
     }
 
     return (
         <div className="w-full max-w-2xl p-8 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-10 md:my-20">
-            <ToastContainer />
             <form onSubmit={handleRegister}>
+                <h5 className="text-xl font-medium text-gray-900 dark:text-white mb-7">Sign up to our platform</h5>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
                         <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>

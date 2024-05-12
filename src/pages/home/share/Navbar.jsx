@@ -1,14 +1,16 @@
-import { useContext, useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { AuthContext } from "../../../provider/AuthProvider"
-import logo from '../../../assets/Logo.svg'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+import logo from '../../../assets/Logo.svg';
+import { AuthContext } from "../../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 
 export default function Navbar() {
-    const { user, signout } = useContext(AuthContext)
+    const { user, signout ,photoURL} = useContext(AuthContext)
     const [theme, setTheme] = useState('light')
+    
+
     const links = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/allfoods'>All Foods</Link></li>
@@ -35,16 +37,29 @@ export default function Navbar() {
     const logoutUser = () => {
         signout()
             .then(() => {
-                toast.success('Sign Out Sucessfull')
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `Sign Out Success`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
             }).catch(err => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${err.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
                 console.log(err)
-                toast.error(err.message)
             })
     }
-
+    
+    
     return (
-            
-        <div className="navbar bg-base-100 flex justify-between">
+        
+            <><div className="navbar bg-base-100 flex justify-between">
             <div className="navbar-start max-w-40">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -62,7 +77,6 @@ export default function Navbar() {
                 <ul className="menu menu-horizontal px-1">
                     {links}
                 </ul>
-                <ToastContainer />
             </div>
             <div className="flex-none navbar-end max-w-32">
                 {/* themeContlor */}
@@ -78,8 +92,7 @@ export default function Navbar() {
                     <svg className="swap-on fill-current w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" /></svg>
 
                 </label>
-
-                <div className="dropdown dropdown-end">
+                {user && <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                         <div className="indicator">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -95,26 +108,25 @@ export default function Navbar() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>}
                 <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                    {user ? <>
+                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                <img alt="Profile" src={photoURL && photoURL} />
+                            </div>
                         </div>
-                    </div>
-                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li>
-                            <a className="justify-between">
-                                Profile
-                                <span className="badge">New</span>
-                            </a>
-                        </li>
-                        <li><a>Settings</a></li>
-                        <li onClick={logoutUser}><a>Logout</a></li>
-                    </ul>
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li>Profile</li>
+                            <li>My added food items</li>
+                            <li>Add a food item</li>
+                            <li>My ordered food items</li>
+                            <li onClick={logoutUser}>Logout</li>
+                        </ul>
+                    </> : <Link to='/login'><button className="btn btn-accent btn-outline">Login</button></Link>}
                 </div>
             </div>
-        </div>
+        </div></>
     )
 }
 

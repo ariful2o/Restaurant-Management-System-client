@@ -1,9 +1,8 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "../provider/AuthProvider";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false)
@@ -18,35 +17,69 @@ export default function Login() {
 
         loginUser(email, password)
             .then(() => {
-                toast.success('Logged in successfully!')
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Login Successfull",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             })
-            .catch(err => toast.error(err.message))
+            .catch(err => Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${err.message}`,
+                showConfirmButton: false,
+                timer: 1500
+            }))
     }
-    
+
     const handleGoogleSigin = () => {
         googleSignin()
             .then(() => {
-                toast.success('Logged in successfully!')
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Signin Successfull",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }).catch(err => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${err.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 console.log(err)
-                toast.error(err.message)
             })
     }
     const handleGithubSigin = () => {
         githubSignin()
             .then(() => {
-                toast.success('Logged in successfully!')
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Signin Successfull",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }).catch(err => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${err.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 console.log(err)
-                toast.error(err.message)
-            }
-            )
+            })
     }
 
 
     return (
         <div className="w-full max-w-lg p-8 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-20">
-            <ToastContainer />
             <form className="space-y-6" onSubmit={handleLogin}>
                 <h5 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h5>
                 <div>
@@ -74,7 +107,7 @@ export default function Login() {
                 </div>
                 <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-                    Not registered? <Link to='/register'><a href="#" className="text-blue-700 hover:underline dark:text-blue-500">Create account</a></Link>
+                    Not registered? <Link to='/register'><p className="text-blue-700 hover:underline dark:text-blue-500">Create account</p></Link>
                 </div>
             </form>
             <div className="flex gap-4 justify-center mt-10">

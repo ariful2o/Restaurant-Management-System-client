@@ -3,6 +3,8 @@ import TheStory from "../share/TheStory";
 
 
 export default function Home() {
+ 
+
   return (
     <div>
       <Banner />
@@ -10,3 +12,7 @@ export default function Home() {
     </div>
   )
 }
+
+
+
+
