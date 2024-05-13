@@ -1,17 +1,22 @@
-import { useLoaderData } from "react-router-dom";
-import StarRating from "../../components/StarRating";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import BannerCommon from "../../components/BannerCommon";
 import axios from "axios";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useLoaderData } from "react-router-dom";
+import BannerCommon from "../../components/BannerCommon";
 import ProductCard from "../../components/ProductCard";
+import StarRating from "../../components/StarRating";
+import auth from "../../firebase/firebase.init";
+import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 
 export default function FoodDetails() {
+    const { addToCard } = useContext(AuthContext)
     const [count, setCount] = useState(1)
     const [topRatedFood, setTopRatedFood] = useState([])
     const food = useLoaderData();
     const { FoodName, FoodImage, FoodCategory, Quantity, Price, AddBy, FoodOrigin, Description, _id } = food
+
     const countPlus = useCallback(() => {
         setCount(count + 1)
     }, [count])
@@ -25,9 +30,43 @@ export default function FoodDetails() {
         axios.get('http://localhost:5000/products')
             .then(res => setTopRatedFood(res.data))
     }, [])
-
     const randomIndex = Math.floor(Math.random() * topRatedFood.length)
     const sliceFood = topRatedFood.slice(randomIndex, topRatedFood.length)
+
+    const user = auth.currentUser;
+
+    const handlePurchase = () => {
+        const contatie = count
+        const name = user?.displayName;
+        const email = user.email;
+        const date = Date.now();
+        const orderId = _id
+        const orderDetails = { contatie, name, email, date, orderId }
+
+        axios.post('http://localhost:5000/order', orderDetails)
+            .then(res => {
+                if (res.data.acknowledged) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your Order Successfull",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                console.log(res.data)
+            }).catch(err => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: err.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                console.log(err)
+            })
+    }
+
     return (
         <><BannerCommon location="Food Details"></BannerCommon><div className="w-full lg:w-11/12 mx-auto">
             <div className="flex flex-col bg-base-200 text-black border border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-200 gap-2 lg:gap-20">
@@ -56,9 +95,8 @@ export default function FoodDetails() {
                             </div>
                         </div>
                         <div className="gap-4 flex">
-                            <button className="border-2 border-[#E1B168] w-28">Add to Card</button>
-                            <button className="bg-[#E1B168] w-24">Purchase</button>
-
+                            <button onClick={() => addToCard(_id)} className="border-2 border-[#E1B168] w-28">Add to Card</button>
+                            <button onClick={handlePurchase} className="bg-[#E1B168] w-24">Purchase</button>
                         </div>
                     </div>
                     <div className="mt-8 space-y-4">
@@ -79,7 +117,7 @@ export default function FoodDetails() {
             </div>
             <div className="bg-base-300 my-20">
                 <h2 className="text-4xl font-cormorant font-semibold my-4 lg:my-20 p-8">Related Dishes</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
                     {
                         sliceFood.map(food => <ProductCard foodItem={food} key={food._id}></ProductCard>)
                     }

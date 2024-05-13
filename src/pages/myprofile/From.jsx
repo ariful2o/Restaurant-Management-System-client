@@ -3,16 +3,6 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import auth from "../../firebase/firebase.init";
 
-// 1. 
-// 2. 
-// 3. Food Category
-// 4. quantity
-// 5. Price
-// 6. Add By (name & email: this info added from currently logged-in user. )
-// 7. Food Origin (Country)
-// 8. A short description of the food item (  )
-// 9. Add Item Button
-
 export default function From() {
   const [userinfo, setUserinfo] = useState({})
   const user = auth?.currentUser;

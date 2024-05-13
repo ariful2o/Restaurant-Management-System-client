@@ -2,6 +2,8 @@ import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword,
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.init";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export const AuthContext = createContext(null)
 
@@ -9,7 +11,9 @@ export default function AuthProvider({ children }) {
 
     const [user, setUser] = useState(null)
     const [photoURL, setPhotoURL] = useState("")
+    const [addCart, setAddCart] = useState([])
     const [loading, setLoading] = useState(true)
+
     const googleProvider = new GoogleAuthProvider()
     const githubProvider = new GithubAuthProvider()
 
@@ -35,8 +39,37 @@ export default function AuthProvider({ children }) {
         setLoading(true)
         return signInWithPopup(auth, githubProvider)
     }
+    const addToCard = (id) => {
+        const name = auth.currentUser?.displayName;
+        const email = auth.currentUser.email;
+        const date = Date.now();
+        const addCradId = id
+        const addCardDetails = { name, email, date, addCradId }
 
-
+        axios.post('http://localhost:5000/addtocard', addCardDetails)
+            .then(res => {
+                if (res.data.acknowledged) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Food Add to Card Successfull",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    const remaing=addCart.filter(card=>card.addCradId===id)
+                    setAddCart([...addCart,remaing])
+                }
+            }).catch(err => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: err.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                console.log(err)
+            })
+    }
 
     //--------
     useEffect(() => {
@@ -48,7 +81,14 @@ export default function AuthProvider({ children }) {
         });
         return () => unSubscribe();
     }, []);
-
+    useEffect(() => {
+        axios.get(`http://localhost:5000/addtocard/${auth.currentUser?.email}`)
+            .then(res => {
+                setAddCart(res.data)
+            }).catch(err => {
+                console.log(err)
+            })
+    }, [user,addCart])
 
 
     const authInfo = {
@@ -60,7 +100,9 @@ export default function AuthProvider({ children }) {
         googleSignin,
         githubSignin,
         signout,
-        photoURL
+        photoURL,
+        addToCard,
+        addCart
     }
     return (
         <AuthContext.Provider value={authInfo}>
