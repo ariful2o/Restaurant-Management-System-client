@@ -1,10 +1,9 @@
 import { useContext, useState } from "react"
-import { AuthContext } from "../provider/AuthProvider"
-
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
-import auth from "../firebase/firebase.init";
 import Swal from "sweetalert2";
+import auth from "../../firebase/firebase.init";
+import { AuthContext } from "../../provider/AuthProvider";
 
 
 export default function Register() {

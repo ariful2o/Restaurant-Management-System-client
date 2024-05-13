@@ -1,5 +1,7 @@
+import PopularDishes from "../PopularDishes";
 import Banner from "../share/Banner";
 import TheStory from "../share/TheStory";
+
 
 
 export default function Home() {
@@ -9,6 +11,7 @@ export default function Home() {
     <div>
       <Banner />
       <TheStory></TheStory>
+      <PopularDishes></PopularDishes>
     </div>
   )
 }

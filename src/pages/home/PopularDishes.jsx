@@ -1,0 +1,29 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+import ProductCard from "../../components/ProductCard"
+
+
+export default function PopularDishes() {
+    const [foods,setFoods]=useState([])
+    useEffect(()=>{
+        axios.get('http://localhost:5000/products')
+        .then(res=>setFoods(res.data))
+        .catch(error=>console.log(error))
+    },[])
+    return (
+        <div className="my-20 bg-gray-200 py-10">
+            <div className="text-center space-y-9">
+                <h2 className="text-4xl font-cormorant font-bold">Popular Dishes</h2>
+                <p className="max-w-5xl mx-auto">
+                    In the bustling world of culinary delights, few things captivate the palate quite like the allure of popular dishes. Picture yourself indulging in the savory ecstasy of Crispy Chicken Wings, each bite offering a symphony of flavors that dance across your taste buds. The Classic Cheeseburger beckons with its juicy beef patty, oozing cheese, and a medley of fresh toppings, promising a culinary journey like no other.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-20">
+                {
+                    foods.map(food=>{
+                        return <ProductCard foodItem={food} key={food._id}/>
+                    })
+                }
+            </div>
+        </div>
+    )
+}

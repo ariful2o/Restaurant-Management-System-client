@@ -1,0 +1,80 @@
+[
+  {
+    "FoodName": "Crispy Chicken Wings",
+    "FoodImage": "https://images.squarespace-cdn.com/content/v1/60152ef33c15960033d3b095/1678031223065-LOMLDHNA13KELXYU3DLO/Thai-Crispy-chicken-wings-World-of-Thai-Food.jpg?format=750w",
+    "FoodCategory": "Appetizer",
+    "Quantity": 6,
+    "Price": 9.99,
+    "AddBy": {
+      "Name": "John Doe",
+      "Email": "john.doe@email.com"
+    },
+    "FoodOrigin": "United States",
+    "Description": "Delicious chicken wings seasoned to perfection and fried until crispy. Served with your choice of dipping sauce."
+  },
+  {
+    "FoodName": "Classic Cheeseburger",
+    "FoodImage": "https://www.modernhoney.com/wp-content/uploads/2022/05/Classic-Double-Cheeseburger-and-Fries-with-Gourmet-Hot-Dogs-and-Toppings-scaled.jpg",
+    "FoodCategory": "Main Course",
+    "Quantity": 1,
+    "Price": 12.99,
+    "AddBy": {
+      "Name": "Alice Smith",
+      "Email": "alice.smith@email.com"
+    },
+    "FoodOrigin": "United States",
+    "Description": "Juicy beef patty topped with melted cheese, fresh lettuce, ripe tomatoes, and tangy pickles, sandwiched between a soft sesame seed bun."
+  },
+  {
+    "FoodName": "Margherita Pizza",
+    "FoodImage": "https://i.ibb.co/tZtXCxP/Photo-2.png",
+    "FoodCategory": "Main Course",
+    "Quantity": 1,
+    "Price": 10.99,
+    "AddBy": {
+      "Name": "Robert Johnson",
+      "Email": "robert.johnson@email.com"
+    },
+    "FoodOrigin": "Italy",
+    "Description": "Traditional Italian pizza topped with tangy tomato sauce, fresh mozzarella cheese, fragrant basil leaves, and a drizzle of olive oil."
+  },
+  {
+    "FoodName": "California Sushi Roll",
+    "FoodImage": "https://i.ibb.co/7W708LR/Photo-1.jpg",
+    "FoodCategory": "Appetizer",
+    "Quantity": 8,
+    "Price": 14.99,
+    "AddBy": {
+      "Name": "Emily Davis",
+      "Email": "emily.davis@email.com"
+    },
+    "FoodOrigin": "Japan",
+    "Description": "A delightful sushi roll filled with crab meat, avocado, cucumber, and rice, wrapped in seaweed and served with soy sauce and wasabi."
+  },
+  {
+    "FoodName": "BBQ Ribs",
+    "FoodImage": "https://www.barossafinefoods.com.au/glide-cache/containers/main/2020_bff_porkribs_bbq_website-2.jpg/03d880f2ca84b83fdeb147548e7d9b12.jpg",
+    "FoodCategory": "Main Course",
+    "Quantity": 1,
+    "Price": 16.99,
+    "AddBy": {
+      "Name": "Michael Wilson",
+      "Email": "michael.wilson@email.com"
+    },
+    "FoodOrigin": "United States",
+    "Description": "Tender pork ribs slow-cooked to perfection and smothered in tangy barbecue sauce. Served with coleslaw and cornbread."
+  },
+  {
+    "FoodName": "Pasta Carbonara",
+    "FoodImage": "https://www.thecandidcooks.com/wp-content/uploads/2022/04/spaghetti-carbonara-feature.jpg",
+    "FoodCategory": "Main Course",
+    "Quantity": 1,
+    "Price": 13.99,
+    "AddBy": {
+      "Name": "Sophia Brown",
+      "Email": "sophia.brown@email.com"
+    },
+    "FoodOrigin": "Italy",
+    "Description": "Al dente spaghetti tossed with creamy carbonara sauce, crispy bacon, Parmesan cheese, and freshly ground black pepper."
+  }
+]

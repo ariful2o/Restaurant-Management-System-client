@@ -1,4 +1,5 @@
-import auth from "../../firebase/firebase.init";
+import auth from "../../../firebase/firebase.init";
+
 
 
 export default function MyProfile() {

@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../provider/AuthProvider";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../provider/AuthProvider";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false)

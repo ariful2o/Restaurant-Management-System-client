@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../provider/AuthProvider';
 import { useContext } from 'react';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { AuthContext } from '../provider/AuthProvider';
 
 export default function PrivateRoute({children}) {
     const {user, loading} = useContext(AuthContext)

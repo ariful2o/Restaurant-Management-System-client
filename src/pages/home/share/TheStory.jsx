@@ -27,15 +27,13 @@ export default function TheStory() {
                 </div>
 
             </div>
-            <div className="flex flex-col lg:flex-row gap-28">
-                <div className="w-full lg:w-1/2">
+            <div className="flex flex-col lg:flex-row justify-between gap-10">
+                <div className="w-full lg:w-1/3 items-stretch flex lg:max-h-96 mt-10">
                     <img className='w-full lg:pl-10' src="https://i.ibb.co/F5c4BXG/Photo-1.jpg" alt="" />
                 </div>
-                <div className="w-full lg:w-1/2 space-y-6">
+                <div className="w-full lg:w-8/12 space-y-6">
                     <h2 className="text-[#292E36] font-cormorant text-4xl">The Story</h2>
-                    <p className="text-[#555555]">Once upon a time in a quaint village nestled amidst rolling hills and lush greenery, there lived a young girl named Lily. With her unruly curls and bright blue eyes, Lily was a curious soul, always eager to explore the world around her.<br/>
-
-One crisp autumn morning, as the golden leaves danced in the gentle breeze, Lily set out on an adventure into the forest that bordered her village. Armed with nothing but her imagination and a wicker basket, she skipped along the winding path, her heart brimming with excitement.</p>
+                    <p className="text-[#555555]">Once upon a time in a quaint village nestled amidst rolling hills and lush greenery, there lived a young girl named Lily. With her unruly curls and bright blue eyes, Lily was a curious soul, always eager to explore the world around her.</p>
                     <div className="flex gap-8 flex-col lg:flex-row">
                         <div className="w-full lg:w-1/2">
                             <h2 className="text-3xl font-cormorant">1996</h2>

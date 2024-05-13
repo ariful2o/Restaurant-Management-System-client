@@ -1,15 +1,15 @@
-import {
-  createBrowserRouter
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Root from "../Root/Root";
 import ErrorPage from "../errorPage/ErrorPage";
 import Home from "../pages/home/Home/Home";
-import Login from "../authentication/Login";
-import Register from "../authentication/Register";
-import AllFoods from "../allFoods/AllFoods/AllFoods";
-import Gallery from "../gallery/Gallery/Gallery";
-import MyProfile from "../myprofile/myProfile/MyProfile";
-import AddaFoodItems from "../myprofile/myProfile/AddaFood/AddaFoodItems";
+import AllFoods from "../pages/allFoods/AllFoods/AllFoods";
+import MyProfile from "../pages/myprofile/myProfile/MyProfile";
+import AddaFoodItems from "../pages/myprofile/myProfile/AddaFood/AddaFoodItems";
+import Login from "../pages/authentication/Login";
+import Register from "../pages/authentication/Register";
+import Gallery from "../pages/gallery/Gallery/Gallery";
+import FoodDetails from "../pages/foodDetails/FoodDetails";
+
 
 const router = createBrowserRouter([
   {
@@ -24,7 +24,12 @@ const router = createBrowserRouter([
       {
         path: '/allfoods',
         element: <AllFoods></AllFoods>,
-        loader:()=>fetch('http://localhost:5000/products')
+        loader: () => fetch('http://localhost:5000/products')
+      },
+      {
+        path: '/foods/:id',
+        element: <FoodDetails />,
+        loader: ({ params }) => fetch(`http://localhost:5000/products/${params.id}`)
       },
       {
         path: '/gallery',
