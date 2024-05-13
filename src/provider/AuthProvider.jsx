@@ -11,8 +11,8 @@ export default function AuthProvider({ children }) {
 
     const [user, setUser] = useState(null)
     const [photoURL, setPhotoURL] = useState("")
-    const [addCart, setAddCart] = useState([])
     const [loading, setLoading] = useState(true)
+    const [addCart, setAddCart] = useState([])
 
     const googleProvider = new GoogleAuthProvider()
     const githubProvider = new GithubAuthProvider()
@@ -88,7 +88,7 @@ export default function AuthProvider({ children }) {
             }).catch(err => {
                 console.log(err)
             })
-    }, [user,addCart])
+    }, [user])
 
 
     const authInfo = {
