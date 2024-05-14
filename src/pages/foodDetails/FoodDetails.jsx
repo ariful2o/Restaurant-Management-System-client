@@ -42,7 +42,7 @@ export default function FoodDetails() {
         const date = Date.now();
         const orderId = _id
         const orderDetails = { contatie, name, email, date, orderId }
-        if(Quantity<=0){
+        if (Quantity <= 0) {
             return Swal.fire({
                 position: "top-end",
                 icon: "error",
@@ -51,7 +51,7 @@ export default function FoodDetails() {
                 timer: 1500
             });
         }
-        if(email===AddBy.Email){
+        if (email === AddBy.Email) {
             return Swal.fire({
                 position: "top-end",
                 icon: "error",
@@ -60,6 +60,7 @@ export default function FoodDetails() {
                 timer: 1500
             });
         }
+        const upQuantity = { Quantity: Quantity - 1 }
 
         axios.post('http://localhost:5000/order', orderDetails)
             .then(res => {
@@ -71,7 +72,10 @@ export default function FoodDetails() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    
+                    axios.put(`http://localhost:5000/updatequantete/${_id}`, upQuantity)
+                        .then(res => {
+                            console.log(res.data)
+                        })
                 }
                 console.log(res.data)
             }).catch(err => {
@@ -85,21 +89,15 @@ export default function FoodDetails() {
                 console.log(err)
             })
     }
-    const upQuantity={Quantity:Quantity-1}
-    const name = () => {
-    console.log(upQuantity)
-    axios.put(`http://localhost:5000/updatequantete/${_id}`,upQuantity)
-    .then(res=>{
-        console.log(res.data)
-    })
-}
+    
+   
 
     return (
         <><BannerCommon location="Food Details"></BannerCommon><div className="w-full lg:w-11/12 mx-auto">
             <div className="flex flex-col bg-base-200 text-black border border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-200 gap-2 lg:gap-20">
 
                 <div className="w-full lg:w-1/2">
-                    <img onClick={name} className="object-cover w-full rounded-lg lg:m-8" src={FoodImage} alt="" />
+                    <img className="object-cover w-full rounded-lg lg:m-8" src={FoodImage} alt="" />
                 </div>
 
                 <div className="w-full lg:w-1/2 flex flex-col  p-4 text-black">
@@ -110,8 +108,8 @@ export default function FoodDetails() {
                     </div>
                     <h4 className="text-2xl font-cormorant font-bold">${Price}</h4>
                     <div className="divider"></div>
-                    
-                    <p className="mb-3 font-normal text-gray-700 font-josefin">{Quantity}</p>
+
+                    <p className="mb-3 font-normal text-gray-700 font-josefin">Available Quantity:{Quantity}</p>
                     <div className="flex gap-4 lg:gap-20 h-16 my-10">
                         <div className="border-2 w-28 border-[#E1B168] lg:px-4">
                             <div className="flex items-center justify-between">

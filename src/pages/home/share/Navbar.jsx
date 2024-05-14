@@ -117,7 +117,7 @@ const closeModal = () => {
                         </div>
                         <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                             <div className="card-body">
-                                <span className="font-bold text-lg">{addCart.length} Items</span>
+                                <span className="font-bold text-lg">{addCart.length} Items Add To Cart</span>
                                 <div className="card-actions">
                                     <button onClick={showaddcard} className="btn btn-primary btn-block">View cart</button>
                                 </div>
