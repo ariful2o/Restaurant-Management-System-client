@@ -5,14 +5,17 @@ import Swal from "sweetalert2";
 import logo from '../../../assets/Logo.svg';
 import AddCaetTable from "../../../components/AddCaetTable";
 import { AuthContext } from "../../../provider/AuthProvider";
+import { getAuth, signOut } from "firebase/auth";
 
 
 export default function Navbar() {
-    const { user, signout, photoURL, addCart } = useContext(AuthContext)
+    const { user, setUser, photoURL, addCart } = useContext(AuthContext)
     const [theme, setTheme] = useState('light')
     const [myAddCrat, setMyAddCard] = useState([])
 
     const addCradIds = addCart.map(item => item.addCradId);
+
+    console.log(addCart)
     const links = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/allfoods'>All Foods</Link></li>
@@ -36,8 +39,9 @@ export default function Navbar() {
         document.querySelector('html').setAttribute('data-theme', theme);
     }, [theme]);
 
+    const auth = getAuth();
     const logoutUser = () => {
-        signout()
+        signOut(auth)
             .then(() => {
                 Swal.fire({
                     position: "top-end",
@@ -46,6 +50,7 @@ export default function Navbar() {
                     showConfirmButton: false,
                     timer: 1500
                 })
+                setUser(null)
             }).catch(err => {
                 Swal.fire({
                     position: "top-end",
@@ -61,15 +66,17 @@ export default function Navbar() {
     const showaddcard = () => {
         axios.post('http://localhost:5000/myaddcart', addCradIds)
             .then(res => {
-                setMyAddCard(res.data)
-                console.log(res.data)
-                document.getElementById('my_modal_4').showModal()
+                if (res.data) {
+                    setMyAddCard(res.data)
+                    console.log(res.data)
+                    document.getElementById('my_modal_4').showModal()
+                }
             })
             .catch(err => console.log(err))
     }
-const closeModal = () => {
-    document.getElementById('my_modal_4').close()
-}
+    const closeModal = () => {
+        document.getElementById('my_modal_4').close()
+    }
 
 
     return (
@@ -168,7 +175,7 @@ const closeModal = () => {
                     </div>
                     <div className="modal-action">
                         <form method="dialog">
-                        <button className="btn" onClick={closeModal}>Close</button>
+                            <button className="btn" onClick={closeModal}>Close</button>
                         </form>
                     </div>
                 </div>

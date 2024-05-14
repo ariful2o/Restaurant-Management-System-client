@@ -1,9 +1,10 @@
-import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import axios from "axios";
+import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from "react";
-import auth from "../firebase/firebase.init";
-import axios from "axios";
 import Swal from "sweetalert2";
+import auth from "../firebase/firebase.init";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext(null)
 
@@ -13,6 +14,7 @@ export default function AuthProvider({ children }) {
     const [photoURL, setPhotoURL] = useState("")
     const [loading, setLoading] = useState(true)
     const [addCart, setAddCart] = useState([])
+    const axiosSecure=useAxiosSecure()
 
     const [callAddCart, setCallAddCart] = useState(false)
 
@@ -27,10 +29,7 @@ export default function AuthProvider({ children }) {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
-    const signout = () => {
-        setLoading(true)
-        return signOut(auth)
-    }
+
 
     const googleSignin = () => {
         setLoading(true)
@@ -85,22 +84,40 @@ export default function AuthProvider({ children }) {
     //--------
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            setLoading(false);
-            setPhotoURL(currentUser?.photoURL)
-            // console.log('---------->>', currentUser);
+
+            const userEmail = currentUser?.email || user?.email
+            const loginEmail = { email: userEmail };
+            if (currentUser) {
+                setUser(currentUser);
+
+                setPhotoURL(currentUser?.photoURL)
+                setLoading(false);
+                console.log('============>>', currentUser)
+                axios.post('http://localhost:5000/jwt', loginEmail, { withCredentials: true })
+                    .then(res => {
+                        console.log(res.data)
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
+            } else {
+                axios.post('http://localhost:5000/logout', loginEmail, { withCredentials: true })
+                    .then(res => {
+                        console.log(res.data)
+                    })
+            }
         });
         return () => unSubscribe();
-    }, []);
+    }, [user]);
     const email = auth.currentUser?.email
     useEffect(() => {
-        axios.get(`http://localhost:5000/addtocard/${email}`)
+        axiosSecure.get(`/addtocard/${email}`)
             .then(res => {
                 setAddCart(res.data)
             }).catch(err => {
                 console.log(err)
             })
-    }, [callAddCart, email])
+    }, [callAddCart, email,axiosSecure])
 
     const authInfo = {
         user,
@@ -110,7 +127,6 @@ export default function AuthProvider({ children }) {
         loginUser,
         googleSignin,
         githubSignin,
-        signout,
         photoURL,
         addToCard,
         addCart

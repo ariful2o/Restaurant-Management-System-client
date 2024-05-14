@@ -1,14 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "../Root/Root";
 import ErrorPage from "../errorPage/ErrorPage";
-import Home from "../pages/home/Home/Home";
 import AllFoods from "../pages/allFoods/AllFoods/AllFoods";
-import MyProfile from "../pages/myprofile/myProfile/MyProfile";
-import AddaFoodItems from "../pages/myprofile/myProfile/AddaFood/AddaFoodItems";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
-import Gallery from "../pages/gallery/Gallery/Gallery";
 import FoodDetails from "../pages/foodDetails/FoodDetails";
+import Home from "../pages/home/Home/Home";
+import AddaFoodItems from "../pages/myprofile/myProfile/AddaFood/AddaFoodItems";
+import MyProfile from "../pages/myprofile/myProfile/MyProfile";
+import Gallery from "../pages/gallery/Gallery";
 
 
 const router = createBrowserRouter([
@@ -34,6 +34,7 @@ const router = createBrowserRouter([
       {
         path: '/gallery',
         element: <Gallery></Gallery>,
+        // loader: () => fetch('http://localhost:5000/products')
       },
       {
         path: '/myprofile',

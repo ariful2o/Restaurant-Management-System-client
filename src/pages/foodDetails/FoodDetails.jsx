@@ -8,6 +8,7 @@ import StarRating from "../../components/StarRating";
 import auth from "../../firebase/firebase.init";
 import { AuthContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 export default function FoodDetails() {
@@ -16,6 +17,7 @@ export default function FoodDetails() {
     const [topRatedFood, setTopRatedFood] = useState([])
     const food = useLoaderData();
     const { FoodName, FoodImage, FoodCategory, Quantity, Price, AddBy, FoodOrigin, Description, _id } = food
+    const axiosSecure=useAxiosSecure()
 
     const countPlus = useCallback(() => {
         setCount(count + 1)
@@ -62,7 +64,7 @@ export default function FoodDetails() {
         }
         const upQuantity = { Quantity: Quantity - 1 }
 
-        axios.post('http://localhost:5000/order', orderDetails)
+        axiosSecure.post(`/order`,orderDetails)
             .then(res => {
                 if (res.data.acknowledged) {
                     Swal.fire({
@@ -72,7 +74,7 @@ export default function FoodDetails() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    axios.put(`http://localhost:5000/updatequantete/${_id}`, upQuantity)
+                    orderDetails.put(`/updatequantete/${_id}`, upQuantity)
                         .then(res => {
                             console.log(res.data)
                         })
