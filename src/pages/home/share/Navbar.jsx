@@ -6,16 +6,18 @@ import logo from '../../../assets/Logo.svg';
 import AddCaetTable from "../../../components/AddCaetTable";
 import { AuthContext } from "../../../provider/AuthProvider";
 import { getAuth, signOut } from "firebase/auth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 
 export default function Navbar() {
     const { user, setUser, photoURL, addCart } = useContext(AuthContext)
     const [theme, setTheme] = useState('light')
     const [myAddCrat, setMyAddCard] = useState([])
+    const axiosSecure=useAxiosSecure()
 
     const addCradIds = addCart.map(item => item.addCradId);
 
-    console.log(addCart)
+    // console.log(addCart)
     const links = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/allfoods'>All Foods</Link></li>
@@ -62,13 +64,13 @@ export default function Navbar() {
                 console.log(err)
             })
     }
-
+const email=auth.currentUser?.email
     const showaddcard = () => {
-        axios.post('http://localhost:5000/myaddcart', addCradIds)
+        axiosSecure.post(`/myaddcart/${email}`, addCradIds)
             .then(res => {
                 if (res.data) {
                     setMyAddCard(res.data)
-                    console.log(res.data)
+                    // console.log(res.data)
                     document.getElementById('my_modal_4').showModal()
                 }
             })

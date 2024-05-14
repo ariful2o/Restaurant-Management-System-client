@@ -79,7 +79,7 @@ export default function FoodDetails() {
                             console.log(res.data)
                         })
                 }
-                console.log(res.data)
+                // console.log(res.data)
             }).catch(err => {
                 Swal.fire({
                     position: "top-end",

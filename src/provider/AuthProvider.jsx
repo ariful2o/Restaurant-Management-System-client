@@ -89,12 +89,12 @@ export default function AuthProvider({ children }) {
             const loginEmail = { email: userEmail };
             if (currentUser) {
                 setUser(currentUser);
-
                 setPhotoURL(currentUser?.photoURL)
                 setLoading(false);
                 console.log('============>>', currentUser)
+                
                 axios.post('http://localhost:5000/jwt', loginEmail, { withCredentials: true })
-                    .then(res => {
+                    .then((res) => {
                         console.log(res.data)
                     }).catch(err => {
                         console.log(err)
@@ -102,8 +102,8 @@ export default function AuthProvider({ children }) {
 
             } else {
                 axios.post('http://localhost:5000/logout', loginEmail, { withCredentials: true })
-                    .then(res => {
-                        console.log(res.data)
+                    .then(() => {
+                        // console.log(res.data)
                     })
             }
         });
