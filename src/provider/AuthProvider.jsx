@@ -14,9 +14,10 @@ export default function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true)
     const [addCart, setAddCart] = useState([])
 
+    const [callAddCart, setCallAddCart] = useState(false)
+
     const googleProvider = new GoogleAuthProvider()
     const githubProvider = new GithubAuthProvider()
-
 
     const registerUser = (email, password) => {
         setLoading(true)
@@ -46,29 +47,39 @@ export default function AuthProvider({ children }) {
         const addCradId = id
         const addCardDetails = { name, email, date, addCradId }
 
-        axios.post('http://localhost:5000/addtocard', addCardDetails)
-            .then(res => {
-                if (res.data.acknowledged) {
+        if (addCart.find(item => item.addCradId === addCradId)) {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Food is already added to card.",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return
+        } else {
+            axios.post('http://localhost:5000/addtocard', addCardDetails)
+                .then(res => {
+                    if (res.data.acknowledged) {
+                        setCallAddCart(true)
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Food Add to Card Successfull",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                }).catch(err => {
                     Swal.fire({
                         position: "top-end",
-                        icon: "success",
-                        title: "Food Add to Card Successfull",
+                        icon: "error",
+                        title: err.message,
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    const remaing=addCart.filter(card=>card.addCradId===id)
-                    setAddCart([...addCart,remaing])
-                }
-            }).catch(err => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: err.message,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                console.log(err)
-            })
+                    console.log(err)
+                })
+        }
     }
 
     //--------
@@ -77,19 +88,19 @@ export default function AuthProvider({ children }) {
             setUser(currentUser);
             setLoading(false);
             setPhotoURL(currentUser?.photoURL)
-            console.log('---------->>', currentUser);
+            // console.log('---------->>', currentUser);
         });
         return () => unSubscribe();
     }, []);
+    const email = auth.currentUser?.email
     useEffect(() => {
-        axios.get(`http://localhost:5000/addtocard/${auth.currentUser?.email}`)
+        axios.get(`http://localhost:5000/addtocard/${email}`)
             .then(res => {
                 setAddCart(res.data)
             }).catch(err => {
                 console.log(err)
             })
-    }, [user])
-
+    }, [callAddCart, email])
 
     const authInfo = {
         user,

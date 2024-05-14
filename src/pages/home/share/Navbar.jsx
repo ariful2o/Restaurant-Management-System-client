@@ -1,10 +1,10 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import logo from '../../../assets/Logo.svg';
-import { AuthContext } from "../../../provider/AuthProvider";
-import axios from "axios";
 import AddCaetTable from "../../../components/AddCaetTable";
+import { AuthContext } from "../../../provider/AuthProvider";
 
 
 export default function Navbar() {
@@ -12,13 +12,7 @@ export default function Navbar() {
     const [theme, setTheme] = useState('light')
     const [myAddCrat, setMyAddCard] = useState([])
 
-    const addCardId = []
-    for (let i = 0; i < addCart.length; i++) {
-        const element = addCart[i];
-        addCardId.push(element.addCradId)
-    }
-    console.log(myAddCrat)
-
+    const addCradIds = addCart.map(item => item.addCradId);
     const links = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/allfoods'>All Foods</Link></li>
@@ -64,13 +58,20 @@ export default function Navbar() {
             })
     }
 
-    useEffect(() => {
-        axios.post('http://localhost:5000/myaddcart', addCardId)
-            .then(res => setMyAddCard(res.data))
+    const showaddcard = () => {
+        axios.post('http://localhost:5000/myaddcart', addCradIds)
+            .then(res => {
+                setMyAddCard(res.data)
+                console.log(res.data)
+                document.getElementById('my_modal_4').showModal()
+            })
             .catch(err => console.log(err))
-    }, [addCart])
+    }
+const closeModal = () => {
+    document.getElementById('my_modal_4').close()
+}
 
-    
+
     return (
 
         <>
@@ -118,7 +119,7 @@ export default function Navbar() {
                             <div className="card-body">
                                 <span className="font-bold text-lg">{addCart.length} Items</span>
                                 <div className="card-actions">
-                                    <button onClick={() => document.getElementById('my_modal_4').showModal()} className="btn btn-primary btn-block">View cart</button>
+                                    <button onClick={showaddcard} className="btn btn-primary btn-block">View cart</button>
                                 </div>
                             </div>
                         </div>
@@ -161,14 +162,13 @@ export default function Navbar() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {myAddCrat.map(food => <AddCaetTable key={food._id} food={food}></AddCaetTable>)}
+                                {myAddCrat.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food}></AddCaetTable>)}
                             </tbody>
                         </table>
                     </div>
                     <div className="modal-action">
                         <form method="dialog">
-                            {/* if there is a button, it will close the modal */}
-                            <button className="btn">Close</button>
+                        <button className="btn" onClick={closeModal}>Close</button>
                         </form>
                     </div>
                 </div>
@@ -176,4 +176,3 @@ export default function Navbar() {
         </>
     )
 }
-

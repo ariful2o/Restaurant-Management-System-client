@@ -1,16 +1,17 @@
-import { useContext } from "react"
-import { AuthContext } from "../provider/AuthProvider"
 import PropTypes from 'prop-types';
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
 
-export default function AddCaetTable({ food }) {
+export default function AddCaetTable({ food,closeModal }) {
     const { addCart } = useContext(AuthContext)
     const addcart = addCart.find(item => item.addCradId === food._id)
-    const date=new Date(addcart.date)
+    const date = new Date(addcart.date)
     return (
         <tr>
             <th>
                 <label>
-<button>slfs</button>
+                    <button>+</button>
                 </label>
             </th>
             <td>
@@ -34,11 +35,15 @@ export default function AddCaetTable({ food }) {
             <td>{food.Price}</td>
             <td>{date.toString()}</td>
             <th>
-                <button className="btn btn-ghost btn-xs">details</button>
+                <Link to={`/foods/${food._id}`}>
+                    <button onClick={closeModal} className="btn btn-ghost btn-xs">details</button>
+                    
+                </Link>
             </th>
         </tr>
     )
 }
 AddCaetTable.propTypes = {
-    food: PropTypes.object.isRequired
+    food: PropTypes.object.isRequired,
+    closeModal: PropTypes.func.isRequired
 }
