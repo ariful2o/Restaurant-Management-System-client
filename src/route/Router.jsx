@@ -10,6 +10,7 @@ import AddaFoodItems from "../pages/myprofile/myProfile/AddaFood/AddaFoodItems";
 import MyProfile from "../pages/myprofile/myProfile/MyProfile";
 import Gallery from "../pages/gallery/Gallery";
 import MyOrderedFood from "../pages/myprofile/myProfile/MyOrdered/MyOrderedFood";
+import MyAddedFoodItems from "../pages/myprofile/myProfile/myAddedFoodItems/MyAddedFoodItems";
 
 
 const router = createBrowserRouter([
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: '/addfood',
         element: <AddaFoodItems></AddaFoodItems>,
+      },
+      {
+        path: '/myaddedfooditems',
+        element: <MyAddedFoodItems />,
       },
       {
         path: '/login',

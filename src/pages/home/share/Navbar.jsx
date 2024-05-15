@@ -1,23 +1,17 @@
-import axios from "axios";
+import { getAuth, signOut } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import logo from '../../../assets/Logo.svg';
 import AddCaetTable from "../../../components/AddCaetTable";
 import { AuthContext } from "../../../provider/AuthProvider";
-import { getAuth, signOut } from "firebase/auth";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 
 export default function Navbar() {
-    const { user, setUser, photoURL, addCart } = useContext(AuthContext)
+    const { user, setUser, photoURL, addCart, orders,showaddcard,showOrders,myAddCrat,myorders,modalShow } = useContext(AuthContext)
     const [theme, setTheme] = useState('light')
-    const [myAddCrat, setMyAddCard] = useState([])
-    const axiosSecure=useAxiosSecure()
+    
 
-    const addCradIds = addCart.map(item => item.addCradId);
-
-    // console.log(addCart)
     const links = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/allfoods'>All Foods</Link></li>
@@ -64,22 +58,10 @@ export default function Navbar() {
                 console.log(err)
             })
     }
-const email=auth.currentUser?.email
-    const showaddcard = () => {
-        axiosSecure.post(`/myaddcart/${email}`, addCradIds)
-            .then(res => {
-                if (res.data) {
-                    setMyAddCard(res.data)
-                    // console.log(res.data)
-                    document.getElementById('my_modal_4').showModal()
-                }
-            })
-            .catch(err => console.log(err))
-    }
-    const closeModal = () => {
-        document.getElementById('my_modal_4').close()
-    }
-
+    
+        const closeModal = () => {
+            document.getElementById('my_modal_4').close()
+        }
 
     return (
 
@@ -121,14 +103,15 @@ const email=auth.currentUser?.email
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                             <div className="indicator">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                                <span className="badge badge-sm indicator-item">{addCart.length}</span>
+                                <span className="badge badge-sm indicator-item">{orders.length}</span>
                             </div>
                         </div>
                         <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                             <div className="card-body">
-                                <span className="font-bold text-lg">{addCart.length} Items Add To Cart</span>
+                                <span onClick={showaddcard} className="font-bold text-lg">{addCart.length} Items Add To Cart</span>
+                                <span onClick={showOrders} className="font-bold text-lg">{orders.length} Items Orders</span>
                                 <div className="card-actions">
-                                    <button onClick={showaddcard} className="btn btn-primary btn-block">View cart</button>
+                                    <button className="btn btn-primary btn-block">View cart</button>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +125,7 @@ const email=auth.currentUser?.email
                             </div>
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                 <li>Profile</li>
-                                <li>My added food items</li>
+                                <Link to='/myaddedfooditems'><li>My added food items</li></Link>
                                 <Link to='/addfood'><li>Add a food item</li></Link>
                                 <li>My ordered food items</li>
                                 <li onClick={logoutUser}>Logout</li>
@@ -154,7 +137,7 @@ const email=auth.currentUser?.email
             {/* You can open the modal using document.getElementById('ID').showModal() method */}
             <dialog id="my_modal_4" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
-                    <h3 className="font-bold text-lg">Hello!</h3>
+                    <h3 className="font-bold text-lg">Add to Card</h3>
                     <div className="overflow-x-auto">
                         <table className="table">
                             {/* head */}
@@ -171,7 +154,9 @@ const email=auth.currentUser?.email
                                 </tr>
                             </thead>
                             <tbody>
-                                {myAddCrat.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food}></AddCaetTable>)}
+                                {
+                                    modalShow ? myAddCrat.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={true}></AddCaetTable>):myorders.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={false}></AddCaetTable>)
+                                }
                             </tbody>
                         </table>
                     </div>

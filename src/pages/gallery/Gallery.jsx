@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import GalaryCard from "./Gallery/GalaryCard";
 import BannerCommon from "../../components/BannerCommon";
 import ReservationBanner from "./Gallery/ReservationBanner";
@@ -16,8 +16,10 @@ export default function Gallery() {
         }
       </div>
       <div className="flex justify-center my-20 w-full">
+        <Link to='/allfoods'>
           <button className="border-2 border-[#E1B168] text-[#E1B168] px-8 py-4">View Menu</button>
-        </div>
+        </Link>
+      </div>
       <ReservationBanner />
       <Feature />
     </div>

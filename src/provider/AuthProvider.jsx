@@ -11,13 +11,22 @@ export const AuthContext = createContext(null)
 export default function AuthProvider({ children }) {
 
     const [user, setUser] = useState(null)
-    const [photoURL, setPhotoURL] = useState("")
     const [loading, setLoading] = useState(true)
+    const [photoURL, setPhotoURL] = useState("")
     const [addCart, setAddCart] = useState([])
-    const axiosSecure=useAxiosSecure()
+    const axiosSecure = useAxiosSecure()
+    const [callUseEffect, setCallUseEffect] = useState(false)
+    const [orders,setOrders]=useState([])
 
-    const [callAddCart, setCallAddCart] = useState(false)
+    //all my orders and addtocard
+    const [myAddCrat, setMyAddCard] = useState([])
+    const [modalShow, setModalShow] = useState(false)
+    const [myorders,setMyorders]=useState([])
 
+    const addCradIds = addCart.map(item => item.addCradId);
+    const ordersIds = orders.map(item => item.orderId);
+
+    const email = auth.currentUser?.email
     const googleProvider = new GoogleAuthProvider()
     const githubProvider = new GithubAuthProvider()
 
@@ -59,7 +68,7 @@ export default function AuthProvider({ children }) {
             axios.post('http://localhost:5000/addtocard', addCardDetails)
                 .then(res => {
                     if (res.data.acknowledged) {
-                        setCallAddCart(true)
+                        setCallUseEffect(true)
                         Swal.fire({
                             position: "top-end",
                             icon: "success",
@@ -81,6 +90,33 @@ export default function AuthProvider({ children }) {
         }
     }
 
+    //find addTo card and Orders
+
+    
+
+    const showaddcard = () => {
+        setModalShow(true)
+        axiosSecure.post(`/myaddcart/${email}`, addCradIds)
+            .then(res => {
+                if (res.data) {
+                    setMyAddCard(res.data)
+                    document.getElementById('my_modal_4').showModal()
+                }
+            })
+            .catch(err => console.log(err))
+    }
+    const showOrders = () => {
+        axiosSecure.post(`/orders/${email}`, ordersIds)
+            .then(res => {
+                if (res.data) {
+                    setMyorders(res.data)
+                    document.getElementById('my_modal_4').showModal()
+                }
+            })
+            .catch(err => console.log(err))
+            setModalShow(false)
+        }
+
     //--------
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -92,24 +128,25 @@ export default function AuthProvider({ children }) {
                 setPhotoURL(currentUser?.photoURL)
                 setLoading(false);
                 console.log('============>>', currentUser)
-                
+
                 axios.post('http://localhost:5000/jwt', loginEmail, { withCredentials: true })
                     .then((res) => {
                         console.log(res.data)
                     }).catch(err => {
-                        console.log(err)
+                        console.error(err)
                     })
 
             } else {
                 axios.post('http://localhost:5000/logout', loginEmail, { withCredentials: true })
-                    .then(() => {
-                        // console.log(res.data)
+                    .then((res) => {
+                        console.log(res.data)
+                    }).catch(err => {
+                        console.error(err)
                     })
             }
         });
         return () => unSubscribe();
     }, [user]);
-    const email = auth.currentUser?.email
     useEffect(() => {
         axiosSecure.get(`/addtocard/${email}`)
             .then(res => {
@@ -117,7 +154,13 @@ export default function AuthProvider({ children }) {
             }).catch(err => {
                 console.log(err)
             })
-    }, [callAddCart, email,axiosSecure])
+        axiosSecure.get(`/order/${email}`)
+            .then(res => {
+                setOrders(res.data)
+            }).catch(err => {
+                console.log(err)
+            })
+    }, [callUseEffect, email, axiosSecure])
 
     const authInfo = {
         user,
@@ -129,7 +172,11 @@ export default function AuthProvider({ children }) {
         githubSignin,
         photoURL,
         addToCard,
-        addCart
+        addCart,
+        orders,
+        setCallUseEffect,
+
+        showaddcard,showOrders,myAddCrat,myorders,modalShow
     }
     return (
         <AuthContext.Provider value={authInfo}>

@@ -12,7 +12,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 export default function FoodDetails() {
-    const { addToCard } = useContext(AuthContext)
+    const { addToCard,setCallUseEffect,orders } = useContext(AuthContext)
     const [count, setCount] = useState(1)
     const [topRatedFood, setTopRatedFood] = useState([])
     const food = useLoaderData();
@@ -62,11 +62,22 @@ export default function FoodDetails() {
                 timer: 1500
             });
         }
+        if(orders.find(food=>food.orderId===orderId)){
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "This Food of you already ordered",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return
+        }
         const upQuantity = { Quantity: Quantity - 1 }
 
         axiosSecure.post(`/order`,orderDetails)
             .then(res => {
                 if (res.data.acknowledged) {
+                    setCallUseEffect(true)
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
@@ -74,7 +85,7 @@ export default function FoodDetails() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    orderDetails.put(`/updatequantete/${_id}`, upQuantity)
+                    axiosSecure.put(`/updatequantete/${_id}`, upQuantity)
                         .then(res => {
                             console.log(res.data)
                         })
