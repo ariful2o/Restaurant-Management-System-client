@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../provider/AuthProvider";
@@ -7,6 +7,9 @@ import { AuthContext } from "../../provider/AuthProvider";
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false)
     const { loginUser, githubSignin, googleSignin } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const location = useLocation()
+    // console.log(location)
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -24,6 +27,7 @@ export default function Login() {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(location.state ? location.state : '/')
             })
             .catch(err => Swal.fire({
                 position: "top-end",
