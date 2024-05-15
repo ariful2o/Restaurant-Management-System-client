@@ -118,7 +118,7 @@ export default function AuthProvider({ children }) {
 
     const showaddcard = () => {
         setModalShow(true)
-        axiosSecure.post(`/myaddcart/${email}`, addCradIds)
+        axios.post(`http://localhost:5000/myaddcart/${email}`, addCradIds)
             .then(res => {
                 if (res.data) {
                     setMyAddCard(res.data)
@@ -128,7 +128,7 @@ export default function AuthProvider({ children }) {
             .catch(err => console.log(err))
     }
     const showOrders = () => {
-        axiosSecure.post(`/orders/${email}`, ordersIds)
+        axios.post(`http://localhost:5000/orders/${email}`, ordersIds)
             .then(res => {
                 if (res.data) {
                     setMyorders(res.data)

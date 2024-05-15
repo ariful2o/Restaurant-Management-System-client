@@ -109,7 +109,9 @@ export default function Navbar() {
                                 <Link to='/addfood'>
                                     <li>Add a food item</li>
                                 </Link>
+                                <Link to='/myorderfood'>
                                 <li>My ordered food items</li>
+                                </Link>
                                 <li onClick={logoutUser}>Logout</li>
                             </ul>
                         </> : <Link to='/login'><button className="btn btn-accent btn-outline">Login</button></Link>}
