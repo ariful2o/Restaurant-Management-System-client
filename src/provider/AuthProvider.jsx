@@ -148,19 +148,19 @@ export default function AuthProvider({ children }) {
         return () => unSubscribe();
     }, [user]);
     useEffect(() => {
-        axiosSecure.get(`/addtocard/${email}`)
+        axios.get(`http://localhost:5000/addtocard/${email}`)
             .then(res => {
                 setAddCart(res.data)
             }).catch(err => {
                 console.log(err)
             })
-        axiosSecure.get(`/order/${email}`)
+        axios.get(`http://localhost:5000/order/${email}`)
             .then(res => {
                 setOrders(res.data)
             }).catch(err => {
                 console.log(err)
             })
-    }, [callUseEffect, email, axiosSecure])
+    }, [callUseEffect, email])
 
     const authInfo = {
         user,

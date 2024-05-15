@@ -1,9 +1,9 @@
-import axios from "axios"
+import axios from "axios";
 import { useEffect } from "react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const AxiosSecure = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: '',
     withCredentials: true,
 
 })

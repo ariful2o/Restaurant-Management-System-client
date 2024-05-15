@@ -8,9 +8,9 @@ import { AuthContext } from "../../../provider/AuthProvider";
 
 
 export default function Navbar() {
-    const { user, setUser, photoURL, addCart, orders,showaddcard,showOrders,myAddCrat,myorders,modalShow } = useContext(AuthContext)
+    const { user, setUser, photoURL, addCart, orders, showaddcard, showOrders, myAddCrat, myorders, modalShow } = useContext(AuthContext)
     const [theme, setTheme] = useState('light')
-    
+
 
     const links = <>
         <li><Link to='/'>Home</Link></li>
@@ -58,10 +58,10 @@ export default function Navbar() {
                 console.log(err)
             })
     }
-    
-        const closeModal = () => {
-            document.getElementById('my_modal_4').close()
-        }
+
+    const closeModal = () => {
+        document.getElementById('my_modal_4').close()
+    }
 
     return (
 
@@ -124,9 +124,15 @@ export default function Navbar() {
                                 </div>
                             </div>
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                                <li>Profile</li>
-                                <Link to='/myaddedfooditems'><li>My added food items</li></Link>
-                                <Link to='/addfood'><li>Add a food item</li></Link>
+                                <Link to='/myprofile'>
+                                    <li>Profile</li>
+                                </Link>
+                                <Link to='/myaddedfooditems'>
+                                    <li>My added food items</li>
+                                </Link>
+                                <Link to='/addfood'>
+                                    <li>Add a food item</li>
+                                </Link>
                                 <li>My ordered food items</li>
                                 <li onClick={logoutUser}>Logout</li>
                             </ul>
@@ -155,7 +161,7 @@ export default function Navbar() {
                             </thead>
                             <tbody>
                                 {
-                                    modalShow ? myAddCrat.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={true}></AddCaetTable>):myorders.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={false}></AddCaetTable>)
+                                    modalShow ? myAddCrat.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={true}></AddCaetTable>) : myorders.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={false}></AddCaetTable>)
                                 }
                             </tbody>
                         </table>
