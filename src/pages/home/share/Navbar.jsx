@@ -1,14 +1,12 @@
-import { getAuth, signOut } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import logo from '../../../assets/Logo.svg';
 import AddCaetTable from "../../../components/AddCaetTable";
 import { AuthContext } from "../../../provider/AuthProvider";
 
 
 export default function Navbar() {
-    const { user, setUser, photoURL, addCart, orders, showaddcard, showOrders, myAddCrat, myorders, modalShow } = useContext(AuthContext)
+    const { user, photoURL, addCart, orders, showaddcard, showOrders, myAddCrat, myorders, modalShow ,logoutUser} = useContext(AuthContext)
     const [theme, setTheme] = useState('light')
 
 
@@ -35,29 +33,7 @@ export default function Navbar() {
         document.querySelector('html').setAttribute('data-theme', theme);
     }, [theme]);
 
-    const auth = getAuth();
-    const logoutUser = () => {
-        signOut(auth)
-            .then(() => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `Sign Out Success`,
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                setUser(null)
-            }).catch(err => {
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `${err.message}`,
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                console.log(err)
-            })
-    }
+   
 
     const closeModal = () => {
         document.getElementById('my_modal_4').close()

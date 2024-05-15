@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -16,12 +16,12 @@ export default function AuthProvider({ children }) {
     const [addCart, setAddCart] = useState([])
     const axiosSecure = useAxiosSecure()
     const [callUseEffect, setCallUseEffect] = useState(false)
-    const [orders,setOrders]=useState([])
+    const [orders, setOrders] = useState([])
 
     //all my orders and addtocard
     const [myAddCrat, setMyAddCard] = useState([])
     const [modalShow, setModalShow] = useState(false)
-    const [myorders,setMyorders]=useState([])
+    const [myorders, setMyorders] = useState([])
 
     const addCradIds = addCart.map(item => item.addCradId);
     const ordersIds = orders.map(item => item.orderId);
@@ -37,6 +37,28 @@ export default function AuthProvider({ children }) {
     const loginUser = (email, password) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
+    }
+    const logoutUser = () => {
+        signOut(auth)
+            .then(() => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `Sign Out Success`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                setUser(null)
+            }).catch(err => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${err.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                console.log(err)
+            })
     }
 
 
@@ -92,7 +114,7 @@ export default function AuthProvider({ children }) {
 
     //find addTo card and Orders
 
-    
+
 
     const showaddcard = () => {
         setModalShow(true)
@@ -114,8 +136,8 @@ export default function AuthProvider({ children }) {
                 }
             })
             .catch(err => console.log(err))
-            setModalShow(false)
-        }
+        setModalShow(false)
+    }
 
     //--------
     useEffect(() => {
@@ -163,20 +185,7 @@ export default function AuthProvider({ children }) {
     }, [callUseEffect, email])
 
     const authInfo = {
-        user,
-        setUser,
-        loading,
-        registerUser,
-        loginUser,
-        googleSignin,
-        githubSignin,
-        photoURL,
-        addToCard,
-        addCart,
-        orders,
-        setCallUseEffect,
-
-        showaddcard,showOrders,myAddCrat,myorders,modalShow
+        user,setUser,loading,registerUser,loginUser,logoutUser,googleSignin,githubSignin,photoURL,addToCard,addCart,orders,setCallUseEffect,showaddcard, showOrders, myAddCrat, myorders, modalShow
     }
     return (
         <AuthContext.Provider value={authInfo}>
