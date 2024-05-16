@@ -1,12 +1,19 @@
 
-import { useContext } from "react"
+import axios from "axios"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import ProductCard from "../../../components/ProductCard"
-import { AuthContext } from "../../../provider/AuthProvider"
 
 
 export default function PopularDishes() {
-    const {allFoods}=useContext(AuthContext)
+    const [popularDishes,setPopularDishes]=useState([])
+    useEffect(()=>{
+        axios.get('https://restaurant-management-server-lac.vercel.app/foodslength/6')
+           .then(res => {
+                setPopularDishes(res.data)
+            })
+           .catch(err => console.error(err))
+    },[])
     
     return (
         <div className="my-20 bg-gray-200 py-10">
@@ -17,7 +24,7 @@ export default function PopularDishes() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-20">
                 {
-                    allFoods.map(food => {
+                    popularDishes.map(food => {
                         return <ProductCard foodItem={food} key={food._id} />
                     })
                 }
