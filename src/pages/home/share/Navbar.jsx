@@ -115,7 +115,7 @@ export default function Navbar() {
                                     <li className="hover:bg-base-100 py-2 rounded-xl px-2">Add a food item</li>
                                 </Link>
                                 <Link to='/myorderfood'>
-                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">My ordered food items</li>
+                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">My purchase</li>
                                 </Link>
                             </ul>
                         </>}

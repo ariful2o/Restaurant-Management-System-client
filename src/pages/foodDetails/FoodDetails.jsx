@@ -49,6 +49,16 @@ export default function FoodDetails() {
             });
             return
         }
+        if (contatie> Quantity) {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "You can't Buy more then available Quantity.",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return
+        }
         if (email === AddBy.Email) {
             Swal.fire({
                 position: "top-end",
