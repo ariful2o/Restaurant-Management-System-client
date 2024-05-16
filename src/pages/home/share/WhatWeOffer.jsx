@@ -1,15 +1,15 @@
 
 export default function WhatWeOffer() {
     return (
-        <div className="bg-[#292E36] h-96 flex flex-col lg:flex-row items-center justify-center">
-            <div className="w-1/2 flex justify-center">
+        <div className="bg-[#292E36] h-auto py-8 lg:h-96 flex flex-col lg:flex-row items-center justify-center">
+            <div className="w-full lg:w-1/2 flex justify-center">
                 <div className="mx-auto text-white space-y-2">
                     <h2 className=" text-xs font-josefin font-semibold">What We Offer</h2>
                     <h2 className=" text-4xl font-cormorant font-semibold">Our Great Services</h2>
                     <p className="font-josefin">We offer a wide range of foods and drinks to suit your taste buds.</p>
                 </div>
             </div>
-            <div className="flex gap-10 w-1/2 justify-center items-center">
+            <div className="grid grid-cols-2 lg:grid-cols-3  gap-10 w-full lg:w-1/2 justify-center items-center mt-8 lg:mt-0">
                 <div className="bg-[#323841] p-4">
                     <div className="bg-[#292E36] flex flex-col justify-center items-center p-6">
                         <img src="https://i.ibb.co/XSkm1Qq/Icon.png" alt="" />

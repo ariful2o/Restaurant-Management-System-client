@@ -27,7 +27,7 @@ export default function AddCaetTable({ food, closeModal, dd }) {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:5000/deleteaddtocart/${id}`)
+                axios.delete(`https://restaurant-management-server-lac.vercel.app/deleteaddtocart/${id}`)
                     .then(res => {
                         if (res.data.acknowledged) {
                             const remaing = addtoCartWithIds.filter(item => item.addCradId != id)

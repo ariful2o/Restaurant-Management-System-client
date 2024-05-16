@@ -12,7 +12,7 @@ export default function Gallery() {
   return (
     <div>
       <BannerCommon location="Gallery"></BannerCommon>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mx-auto w-full md:w-11/12">
         {
           allFoods.map(food => <GalaryCard key={food._id} food={food}></GalaryCard>)
         }

@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../provider/AuthProvider";
 
 export default function From() {
-  const {userinfo}=useContext(AuthContext)
+  const {user}=useContext(AuthContext)
 
 
   const handleAddItem = (e) => {
@@ -22,7 +22,7 @@ export default function From() {
     const food_origin = from.food_origin.value
     const productDetails = { name, email, food_image, food_name, category, quantity, price, description, food_origin }
 
-    axios.post('http://localhost:5000/product', productDetails)
+    axios.post('https://restaurant-management-server-lac.vercel.app/newfood', productDetails)
       .then(function (response) {
         if (response.data.acknowledged) {
           Swal.fire({
@@ -79,11 +79,11 @@ export default function From() {
         </div>
         <div className="mb-6">
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address (Read Only)</label>
-          <input name="email" type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={userinfo.email} disabled readOnly required />
+          <input name="email" type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={user?.email} disabled readOnly required />
         </div>
         <div className="mb-6">
           <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name (Read Only)</label>
-          <input name="name" type="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={userinfo.displayName} disabled readOnly required />
+          <input name="name" type="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={user?.displayName} disabled readOnly required />
         </div>
         <div className="mb-6">
           <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>

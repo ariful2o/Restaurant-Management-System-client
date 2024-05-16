@@ -1,7 +1,7 @@
 
 export default function Feature() {
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mx-auto w-full md:w-11/12 my-20">
             <div className="space-y-8 mt-8 ml-4 max-w-xs">
                 <h6 className="border-2 border-[#E1B168] border-x-0 inline">Feature</h6>
                 <h1 className="text-4xl font-bold font-cormorant text-[#292E36]">Always fresh

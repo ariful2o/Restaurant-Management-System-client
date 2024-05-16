@@ -5,12 +5,11 @@ import BannerCommon from "../../../../components/BannerCommon"
 
 export default function MyOrderedFood() {
   const { myOrdersItems, ordersWithIds } = useContext(AuthContext)
-  console.log(ordersWithIds)
 
   return (
     <div className="bg-base-300">
       <BannerCommon location="My Order Foods"></BannerCommon>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-10">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg my-10 mx-auto w-full md:w-11/12">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -30,7 +29,7 @@ export default function MyOrderedFood() {
                 Price
               </th>
               <th scope="col" className="px-6 py-3">
-                Action
+              Status
               </th>
             </tr>
           </thead>
@@ -57,7 +56,7 @@ export default function MyOrderedFood() {
                     ${Price}
                   </td>
                   <td className="px-6 py-4">
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">panding</a>
                   </td>
                 </tr>
               )
