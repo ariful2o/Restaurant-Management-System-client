@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { AuthContext } from "../../../provider/AuthProvider";
-import DatePick from "./DatePick";
-import TimePicker from "../../../components/TimePicker";
 import Swal from "sweetalert2";
+import TimePicker from "../../../components/TimePicker";
+import { AuthContext } from "../../../provider/AuthProvider";
+import DatePick from "../../../components/DatePick";
 
 
 export default function BookaTable() {

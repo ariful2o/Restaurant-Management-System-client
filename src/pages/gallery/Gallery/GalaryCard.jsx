@@ -10,10 +10,10 @@ const username=auth?.currentUser?.displayName
   return (
     <>
       <div className="relative inline-block" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        <img src={food?.FoodImage} alt="Your Image" className={`block w-full h-full transition-opacity duration-500 ${isHovered ? 'opacity-60' : 'opacity-100'} ${isHovered ? 'scale-110' : 'scale-100'}`} />
+        <img src={food?.FoodImage} alt={food.FoodName} className={`block w-full h-full transition-opacity duration-500 ${isHovered ? 'opacity-60' : 'opacity-100'} ${isHovered ? 'scale-110' : 'scale-100'}`} />
         {isHovered && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-75 text-white p-4 rounded w-full h-full">
-            <div className=" flex flex-col justify-between items-center mt-40">
+          <div className="absolute top-1/4 lg:top-1/2 left-1/2 transform -translate-x-[48%] lg:-translate-x-1/2 -translate-y-1/4 lg:-translate-y-1/2 bg-black bg-opacity-75 text-white p-4 rounded w-full h-full">
+            <div className=" flex flex-col justify-between items-center mt-20 lg:mt-40">
               <p className="text-center text-xl font-cormorant mb-3">{food?.FoodName}</p>
               <p className="text-center font-extralight">{food?.FoodOrigin}</p>
               <p onClick={() => document.getElementById('my_modal_3').showModal()} className="text-center font-cormorant font-bold border-2 border-white mt-6 px-8 py-2">Add</p>
