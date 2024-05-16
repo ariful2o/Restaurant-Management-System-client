@@ -6,10 +6,29 @@ import { AuthContext } from "../../../provider/AuthProvider";
 
 
 export default function Navbar() {
-    const { user, photoURL, addCart, orders, showaddcard, showOrders, myAddCrat, myorders, modalShow ,logoutUser} = useContext(AuthContext)
     const [theme, setTheme] = useState('light')
+    const [modalShow, setModalShow] = useState(false)
+    const { user, logoutUser, myAddtoCartItems, myOrdersItems, closeModal } = useContext(AuthContext)
+
+    //func
+    const handleAddtocartData = () => {
+        setModalShow(true)
+        document.getElementById('my_modal_4').showModal()
+    }
+    const handleShowOrdersData = () => {
+        setModalShow(false)
+        document.getElementById('my_modal_4').showModal()
+    }
+    const handleTheme = (e) => {
+        if (e.target.checked) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    }
 
 
+    //navlinks items
     const links = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/allfoods'>All Foods</Link></li>
@@ -21,24 +40,10 @@ export default function Navbar() {
         }
 
     </>
-    const handleTheme = (e) => {
-        if (e.target.checked) {
-            setTheme('dark');
-        } else {
-            setTheme('light');
-        }
-    };
     //theme change
     useEffect(() => {
         document.querySelector('html').setAttribute('data-theme', theme);
     }, [theme]);
-
-   
-
-    const closeModal = () => {
-        document.getElementById('my_modal_4').close()
-    }
-
     return (
 
         <>
@@ -79,13 +84,13 @@ export default function Navbar() {
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                             <div className="indicator">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                                <span className="badge badge-sm indicator-item">{orders.length}</span>
+                                <span className="badge badge-sm indicator-item">{myOrdersItems.length}</span>
                             </div>
                         </div>
-                        <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
+                        <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-200 shadow">
                             <div className="card-body">
-                                <span onClick={showaddcard} className="font-bold text-lg">{addCart.length} Items Add To Cart</span>
-                                <span onClick={showOrders} className="font-bold text-lg">{orders.length} Items Orders</span>
+                                <span onClick={handleAddtocartData} className="text-lg hover:bg-base-100 py-2 rounded-xl px-2">{myAddtoCartItems.length} Items Add To Cart</span>
+                                <span onClick={handleShowOrdersData} className="hover:bg-base-100 py-2 rounded-xl px-2 text-lg">{myOrdersItems.length} Items Orders</span>
                                 <div className="card-actions">
                                     <button className="btn btn-primary btn-block">View cart</button>
                                 </div>
@@ -93,35 +98,36 @@ export default function Navbar() {
                         </div>
                     </div>}
                     <div className="dropdown dropdown-end">
-                        {user ? <>
+                        {user && <>
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                 <div className="w-10 rounded-full">
-                                    <img alt="Profile" src={photoURL && photoURL} />
+                                    <img alt="Profile" src={user?.photoURL} />
                                 </div>
                             </div>
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52 space-y-3">
                                 <Link to='/myprofile'>
-                                    <li>Profile</li>
+                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">Profile</li>
                                 </Link>
                                 <Link to='/myaddedfooditems'>
-                                    <li>My added food items</li>
+                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">My added food items</li>
                                 </Link>
                                 <Link to='/addfood'>
-                                    <li>Add a food item</li>
+                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">Add a food item</li>
                                 </Link>
                                 <Link to='/myorderfood'>
-                                <li>My ordered food items</li>
+                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">My ordered food items</li>
                                 </Link>
-                                <li onClick={logoutUser}>Logout</li>
                             </ul>
-                        </> : <Link to='/login'><button className="btn btn-accent btn-outline">Login</button></Link>}
+                        </>}
                     </div>
+                    {user ? <button onClick={logoutUser} className="btn btn-error btn-outline">Logout</button> :
+                        <Link to='/login'><button className="btn btn-accent btn-outline">Login</button></Link>}
                 </div>
             </div>
             {/* You can open the modal using document.getElementById('ID').showModal() method */}
             <dialog id="my_modal_4" className="modal">
-                <div className="modal-box w-11/12 max-w-5xl">
-                    <h3 className="font-bold text-lg">Add to Card</h3>
+                <div className="modal-box w-11/12 max-w-4xl">
+                    <h3 className="font-bold text-lg my-2">{modalShow ? 'Add to Card' : 'My Orders'}</h3>
                     <div className="overflow-x-auto">
                         <table className="table">
                             {/* head */}
@@ -139,7 +145,8 @@ export default function Navbar() {
                             </thead>
                             <tbody>
                                 {
-                                    modalShow ? myAddCrat.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={true}></AddCaetTable>) : myorders.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={false}></AddCaetTable>)
+                                    modalShow ? myAddtoCartItems.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={true}></AddCaetTable>) :
+                                        myOrdersItems.map(food => <AddCaetTable closeModal={closeModal} key={food._id} food={food} dd={false}></AddCaetTable>)
                                 }
                             </tbody>
                         </table>

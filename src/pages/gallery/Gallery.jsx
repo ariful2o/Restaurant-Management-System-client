@@ -1,12 +1,14 @@
-import { Link, useLoaderData } from "react-router-dom";
-import GalaryCard from "./Gallery/GalaryCard";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 import BannerCommon from "../../components/BannerCommon";
-import ReservationBanner from "./Gallery/ReservationBanner";
+import { AuthContext } from "../../provider/AuthProvider";
 import Feature from "./Gallery/Feature";
+import GalaryCard from "./Gallery/GalaryCard";
+import ReservationBanner from "./Gallery/ReservationBanner";
 
 
 export default function Gallery() {
-  const allFoods = useLoaderData()
+  const {allFoods}=useContext(AuthContext)
   return (
     <div>
       <BannerCommon location="Gallery"></BannerCommon>

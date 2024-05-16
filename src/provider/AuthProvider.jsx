@@ -4,32 +4,32 @@ import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import auth from "../firebase/firebase.init";
-import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext(null)
 
 export default function AuthProvider({ children }) {
-
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [photoURL, setPhotoURL] = useState("")
-    const [addCart, setAddCart] = useState([])
-    const axiosSecure = useAxiosSecure()
-    const [callUseEffect, setCallUseEffect] = useState(false)
-    const [orders, setOrders] = useState([])
+    const [allFoods, setAllFoods] = useState([])
+
+
+
+    //store ids    
+    const [addtoCartWithIds, setAddtoCartWithIds] = useState([])
+    const [ordersWithIds, setOrdersWithIds] = useState([])
+
 
     //all my orders and addtocard
-    const [myAddCrat, setMyAddCard] = useState([])
-    const [modalShow, setModalShow] = useState(false)
-    const [myorders, setMyorders] = useState([])
+    const [myAddtoCartItems, setMyAddtoCartItems] = useState([])
+    const [myOrdersItems, setMyOrdersItems] = useState([])
 
-    const addCradIds = addCart.map(item => item.addCradId);
-    const ordersIds = orders.map(item => item.orderId);
+    //only db store ids find
+    const addCradIds = addtoCartWithIds.map(item => item.addCradId);
+    const ordersIds = ordersWithIds.map(item => item.orderId);
 
-    const email = auth.currentUser?.email
+    //authentacation
     const googleProvider = new GoogleAuthProvider()
     const githubProvider = new GithubAuthProvider()
-
     const registerUser = (email, password) => {
         setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
@@ -57,11 +57,9 @@ export default function AuthProvider({ children }) {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                console.log(err)
+                console.error(err)
             })
     }
-
-
     const googleSignin = () => {
         setLoading(true)
         return signInWithPopup(auth, googleProvider)
@@ -70,14 +68,16 @@ export default function AuthProvider({ children }) {
         setLoading(true)
         return signInWithPopup(auth, githubProvider)
     }
-    const addToCard = (id) => {
-        const name = auth.currentUser?.displayName;
-        const email = auth.currentUser.email;
+
+    //add to cart food
+    const handleAddtoCart = (id) => {
+        const name = user?.displayName;
+        const email = user?.email;
         const date = Date.now();
         const addCradId = id
         const addCardDetails = { name, email, date, addCradId }
 
-        if (addCart.find(item => item.addCradId === addCradId)) {
+        if (addtoCartWithIds.find(item => item.addCradId === addCradId)) {
             Swal.fire({
                 position: "top-end",
                 icon: "error",
@@ -90,7 +90,7 @@ export default function AuthProvider({ children }) {
             axios.post('http://localhost:5000/addtocard', addCardDetails)
                 .then(res => {
                     if (res.data.acknowledged) {
-                        setCallUseEffect(true)
+                        setAddtoCartWithIds([...addtoCartWithIds, addCardDetails])
                         Swal.fire({
                             position: "top-end",
                             icon: "success",
@@ -111,33 +111,11 @@ export default function AuthProvider({ children }) {
                 })
         }
     }
+//close modal
+const closeModal = () => {
+    document.getElementById('my_modal_4').close()
+}
 
-    //find addTo card and Orders
-
-
-
-    const showaddcard = () => {
-        setModalShow(true)
-        axios.post(`http://localhost:5000/myaddcart/${email}`, addCradIds)
-            .then(res => {
-                if (res.data) {
-                    setMyAddCard(res.data)
-                    document.getElementById('my_modal_4').showModal()
-                }
-            })
-            .catch(err => console.log(err))
-    }
-    const showOrders = () => {
-        axios.post(`http://localhost:5000/orders/${email}`, ordersIds)
-            .then(res => {
-                if (res.data) {
-                    setMyorders(res.data)
-                    document.getElementById('my_modal_4').showModal()
-                }
-            })
-            .catch(err => console.log(err))
-        setModalShow(false)
-    }
 
     //--------
     useEffect(() => {
@@ -147,16 +125,13 @@ export default function AuthProvider({ children }) {
             const loginEmail = { email: userEmail };
             if (currentUser) {
                 setUser(currentUser);
-                setPhotoURL(currentUser?.photoURL)
                 setLoading(false);
                 console.log('============>>', currentUser)
 
                 axios.post('http://localhost:5000/jwt', loginEmail, { withCredentials: true })
                     .then((res) => {
-                        console.log(res.data)
-                    }).catch(err => {
-                        console.error(err)
-                    })
+                        console.log('jwt',res.data)
+                    }).catch(err => console.error(err))
 
             } else {
                 axios.post('http://localhost:5000/logout', loginEmail, { withCredentials: true })
@@ -169,23 +144,56 @@ export default function AuthProvider({ children }) {
         });
         return () => unSubscribe();
     }, [user]);
-    useEffect(() => {
-        axios.get(`http://localhost:5000/addtocard/${email}`)
-            .then(res => {
-                setAddCart(res.data)
-            }).catch(err => {
-                console.log(err)
-            })
-        axios.get(`http://localhost:5000/order/${email}`)
-            .then(res => {
-                setOrders(res.data)
-            }).catch(err => {
-                console.log(err)
-            })
-    }, [callUseEffect, email])
 
+   useEffect(() => {
+    const fetchData = async () => {
+        try {
+            // Fetch all foods
+            const foodsResponse = await axios.get('http://localhost:5000/foods');
+            setAllFoods(foodsResponse.data);
+            // console.log('1', foodsResponse.data);
+
+            // Fetch add to cart items
+            const addToCartResponse = await axios.get(`http://localhost:5000/addtocard/${user?.email}`);
+            setAddtoCartWithIds(addToCartResponse.data);
+            // console.log('2', addToCartResponse.data)
+
+            // Fetch orders
+            const ordersResponse = await axios.get(`http://localhost:5000/order/${user?.email}`);
+            setOrdersWithIds(ordersResponse.data);
+            // console.log('3', ordersResponse.data);
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+    fetchData();
+}, [user]);
+
+    useEffect(()=>{
+     //get fooditems===ids from db
+        axios.post(`http://localhost:5000/myaddcart/${user?.email}`, addCradIds)
+            .then(res => {
+                if (res.data) {
+                    setMyAddtoCartItems(res.data)
+                }
+            })
+            .catch(err => console.error(err))
+
+        axios.post(`http://localhost:5000/orders/${user?.email}`, ordersIds)
+            .then(res => {
+                if (res.data) {
+                    // console.log(res.data)
+                    setMyOrdersItems(res.data)
+                }
+            })
+            .catch(err => console.error(err))
+    },[addtoCartWithIds,ordersWithIds,])
+// console.log(myAddtoCartItems, myOrdersItems)
+
+    //send all information here
     const authInfo = {
-        user,setUser,loading,registerUser,loginUser,logoutUser,googleSignin,githubSignin,photoURL,addToCard,addCart,orders,setCallUseEffect,showaddcard, showOrders, myAddCrat, myorders, modalShow
+        user, setUser, loading, registerUser, loginUser, logoutUser, googleSignin, githubSignin, allFoods, ordersWithIds, addtoCartWithIds,setAddtoCartWithIds, myAddtoCartItems, myOrdersItems, handleAddtoCart,closeModal
     }
     return (
         <AuthContext.Provider value={authInfo}>

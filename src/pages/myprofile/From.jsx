@@ -1,19 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Swal from "sweetalert2";
-import auth from "../../firebase/firebase.init";
+import { AuthContext } from "../../provider/AuthProvider";
 
 export default function From() {
-  const [userinfo, setUserinfo] = useState({})
-  const user = auth?.currentUser;
-  useEffect(() => {
-    if (user !== null) {
-      // The user object has basic properties such as display name, email, etc.
-      const displayName = user.displayName;
-      const email = user.email;
-      setUserinfo({ displayName, email })
-    }
-  }, [user])
+  const {userinfo}=useContext(AuthContext)
+
 
   const handleAddItem = (e) => {
     e.preventDefault()

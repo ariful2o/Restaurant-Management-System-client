@@ -5,11 +5,11 @@ import AllFoods from "../pages/allFoods/AllFoods/AllFoods";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import FoodDetails from "../pages/foodDetails/FoodDetails";
+import Gallery from "../pages/gallery/Gallery";
 import Home from "../pages/home/Home/Home";
 import AddaFoodItems from "../pages/myprofile/myProfile/AddaFood/AddaFoodItems";
-import MyProfile from "../pages/myprofile/myProfile/MyProfile";
-import Gallery from "../pages/gallery/Gallery";
 import MyOrderedFood from "../pages/myprofile/myProfile/MyOrdered/MyOrderedFood";
+import MyProfile from "../pages/myprofile/myProfile/MyProfile";
 import MyAddedFoodItems from "../pages/myprofile/myProfile/myAddedFoodItems/MyAddedFoodItems";
 import PrivateRoute from "../private/PrivateRoute";
 
@@ -27,17 +27,15 @@ const router = createBrowserRouter([
       {
         path: '/allfoods',
         element: <AllFoods></AllFoods>,
-        loader: () => fetch('http://localhost:5000/products')
       },
       {
         path: '/foods/:id',
         element: <PrivateRoute><FoodDetails /></PrivateRoute>,
-        loader: ({ params }) => fetch(`http://localhost:5000/products/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/foods/${params.id}`)
       },
       {
         path: '/gallery',
         element: <Gallery></Gallery>,
-        loader: () => fetch('http://localhost:5000/products')
       },
       {
         path: '/myprofile',

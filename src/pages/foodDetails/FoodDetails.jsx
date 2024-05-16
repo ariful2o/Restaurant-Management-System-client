@@ -1,23 +1,22 @@
 import axios from "axios";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
 import BannerCommon from "../../components/BannerCommon";
 import ProductCard from "../../components/ProductCard";
 import StarRating from "../../components/StarRating";
 import auth from "../../firebase/firebase.init";
 import { AuthContext } from "../../provider/AuthProvider";
-import Swal from "sweetalert2";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 export default function FoodDetails() {
-    const { addToCard,setCallUseEffect,orders } = useContext(AuthContext)
+    const { handleAddtoCart, setOrdersWithIds, ordersWithIds, allFoods } = useContext(AuthContext)
     const [count, setCount] = useState(1)
-    const [topRatedFood, setTopRatedFood] = useState([])
+
     const food = useLoaderData();
     const { FoodName, FoodImage, FoodCategory, Quantity, Price, AddBy, FoodOrigin, Description, _id } = food
-    const axiosSecure=useAxiosSecure()
+
 
     const countPlus = useCallback(() => {
         setCount(count + 1)
@@ -28,12 +27,8 @@ export default function FoodDetails() {
         }
     }, [count])
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/products')
-            .then(res => setTopRatedFood(res.data))
-    }, [])
-    const randomIndex = Math.floor(Math.random() * topRatedFood.length)
-    const sliceFood = topRatedFood.slice(randomIndex, topRatedFood.length)
+    const randomIndex = Math.floor(Math.random() * allFoods.length)
+    const sliceFood = allFoods.slice(randomIndex, allFoods.length)
 
     const user = auth.currentUser;
 
@@ -45,24 +40,26 @@ export default function FoodDetails() {
         const orderId = _id
         const orderDetails = { contatie, name, email, date, orderId }
         if (Quantity <= 0) {
-            return Swal.fire({
+            Swal.fire({
                 position: "top-end",
                 icon: "error",
                 title: "Item is not available.",
                 showConfirmButton: false,
                 timer: 1500
             });
+            return
         }
         if (email === AddBy.Email) {
-            return Swal.fire({
+            Swal.fire({
                 position: "top-end",
                 icon: "error",
                 title: "You con't Buy Owne Product",
                 showConfirmButton: false,
                 timer: 1500
             });
+            return
         }
-        if(orders.find(food=>food.orderId===orderId)){
+        if (ordersWithIds.find(food => food.orderId === orderId)) {
             Swal.fire({
                 position: "top-end",
                 icon: "error",
@@ -74,10 +71,10 @@ export default function FoodDetails() {
         }
         const upQuantity = { Quantity: Quantity - 1 }
 
-        axiosSecure.post(`/order`,orderDetails)
+        axios.post(`http://localhost:5000/order`, orderDetails)
             .then(res => {
                 if (res.data.acknowledged) {
-                    setCallUseEffect(true)
+                    setOrdersWithIds([...ordersWithIds, orderDetails])
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
@@ -85,7 +82,7 @@ export default function FoodDetails() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    axiosSecure.put(`/updatequantete/${_id}`, upQuantity)
+                    axios.put(`http://localhost:5000/updatequantete/${_id}`, upQuantity)
                         .then(res => {
                             console.log(res.data)
                         })
@@ -102,8 +99,8 @@ export default function FoodDetails() {
                 console.log(err)
             })
     }
-    
-   
+
+
 
     return (
         <><BannerCommon location="Food Details"></BannerCommon><div className="w-full lg:w-11/12 mx-auto">
@@ -134,7 +131,7 @@ export default function FoodDetails() {
                             </div>
                         </div>
                         <div className="gap-4 flex">
-                            <button onClick={() => addToCard(_id)} className="border-2 border-[#E1B168] w-28">Add to Card</button>
+                            <button onClick={() => handleAddtoCart(_id)} className="border-2 border-[#E1B168] w-28">Add to Card</button>
                             <button onClick={handlePurchase} className="bg-[#E1B168] w-24">Purchase</button>
                         </div>
                     </div>

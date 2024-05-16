@@ -1,11 +1,7 @@
 import PropTypes from 'prop-types';
-import { useContext } from 'react';
-import { AuthContext } from '../../provider/AuthProvider';
 
-function OrderDetailsCard({ myorders }) {
-    const { FoodName, FoodCategory, Price, FoodOrigin, FoodImage } = myorders
-    const { ordersIds } = useContext(AuthContext)
-    console.log(myorders)
+function OrderDetailsCard({ myOrdersItems }) {
+ 
     return (
         <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
@@ -17,9 +13,8 @@ function OrderDetailsCard({ myorders }) {
             <div className="flow-root">
                 <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                     {
-                        myorders.map(item => {
-                            const order = ordersIds.find(item => item.orderId === item._id)
-
+                        myOrdersItems.map(item => {
+                            const { FoodName, Price, FoodOrigin, FoodImage } = item
                             return (
                                 <li key={item._id} className="py-3 sm:py-4">
                                     <div className="flex items-center">
@@ -34,9 +29,7 @@ function OrderDetailsCard({ myorders }) {
                                                 {FoodOrigin}
                                             </p>
                                         </div>
-                                        <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                            {order?.contatie}
-                                        </div>
+                                     
                                         <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                             ${Price}
                                         </div>
@@ -53,5 +46,5 @@ function OrderDetailsCard({ myorders }) {
 
 export default OrderDetailsCard;
 OrderDetailsCard.propTypes = {
-    myorders: PropTypes.object.isRequired
+    myOrdersItems: PropTypes.array.isRequired
 }

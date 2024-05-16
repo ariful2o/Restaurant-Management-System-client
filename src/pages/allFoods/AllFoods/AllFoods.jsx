@@ -1,9 +1,10 @@
-import { useLoaderData } from "react-router-dom"
+import { useContext } from "react"
 import BannerCommon from "../../../components/BannerCommon"
 import ProductCard from "../../../components/ProductCard"
+import { AuthContext } from "../../../provider/AuthProvider"
 
 export default function AllFoods() {
-  const allFoods = useLoaderData()
+  const {allFoods}=useContext(AuthContext)
   return (
     <div className="bg-base-300">
       <BannerCommon location="All Foods"></BannerCommon>
