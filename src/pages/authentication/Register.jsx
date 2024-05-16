@@ -44,7 +44,7 @@ export default function Register() {
                     showConfirmButton: false,
                     timer: 1500
                   });
-                updateProfile(auth.currentUser, {
+                updateProfile(auth?.currentUser, {
                     displayName: `${first_name} ${last_name}`, photoURL: photo
                 }).then(() => {
                     // Profile updated!

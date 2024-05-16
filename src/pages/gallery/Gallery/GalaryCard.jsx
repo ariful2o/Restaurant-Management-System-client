@@ -6,7 +6,7 @@ import auth from '../../../firebase/firebase.init';
 function GalaryCard({ food }) {
   const [isHovered, setIsHovered] = useState(false);
 
-const username=auth?.currentUser.displayName
+const username=auth?.currentUser?.displayName
   return (
     <>
       <div className="relative inline-block" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>

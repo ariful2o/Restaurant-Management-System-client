@@ -48,7 +48,7 @@ export default function AuthProvider({ children }) {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                setUser(null)
+                
             }).catch(err => {
                 Swal.fire({
                     position: "top-end",

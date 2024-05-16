@@ -30,7 +30,7 @@ export default function FoodDetails() {
     const randomIndex = Math.floor(Math.random() * allFoods.length)
     const sliceFood = allFoods.slice(randomIndex, allFoods.length)
 
-    const user = auth.currentUser;
+    const user = auth?.currentUser;
 
     const handlePurchase = () => {
         const contatie = count
