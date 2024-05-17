@@ -1,26 +1,41 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { signOut } from "firebase/auth";
+import auth from "../firebase/firebase.init";
 
-// eslint-disable-next-line react-refresh/only-export-components
-const AxiosSecure = axios.create({
+const axiosSecure = axios.create({
     baseURL: 'http://localhost:5000',
     withCredentials: true,
+});
 
-})
-function useAxiosSecure() {
-    useEffect(() => {
-        AxiosSecure.interceptors.response.use(function (response) {
-            // Any status code that lie within the range of 2xx cause this function to trigger
-            // Do something with response data
-            console.log('resposoce',response)
-            return response;
-        }, function (error) {
-            if (error.response.status === 401 || error.response.status === 403) {
-                console.log('logoutttttttttttttt');
-            }
-        });
-    }, [])
-    return AxiosSecure;
-}
+// Add a request interceptor
+axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    return config;
+}, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+});
 
-export default useAxiosSecure
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+}, function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    if (error.response.status === 401 ) {
+        signOut(auth)
+            .then(() => {
+                console.log('logout user');
+            })
+    }
+    return Promise.reject(error);
+});
+
+const useAxiosSecure = () => {
+    return axiosSecure;
+};
+
+export default useAxiosSecure;

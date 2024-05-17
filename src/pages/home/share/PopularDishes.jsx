@@ -8,7 +8,7 @@ import ProductCard from "../../../components/ProductCard"
 export default function PopularDishes() {
     const [popularDishes,setPopularDishes]=useState([])
     useEffect(()=>{
-        axios.get('https://restaurant-management-server-lac.vercel.app/foodslength/6',{ withCredentials: true })
+        axios.get('http://localhost:5000/foodslength/6',{ withCredentials: true })
            .then(res => {
                 setPopularDishes(res.data)
             })

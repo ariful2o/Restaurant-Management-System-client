@@ -4,11 +4,11 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 import BannerCommon from "../../components/BannerCommon";
+import HelmetTitle from "../../components/HelmetTitle";
 import ProductCard from "../../components/ProductCard";
 import StarRating from "../../components/StarRating";
 import auth from "../../firebase/firebase.init";
 import { AuthContext } from "../../provider/AuthProvider";
-import HelmetTitle from "../../components/HelmetTitle";
 
 
 export default function FoodDetails() {
@@ -82,7 +82,7 @@ export default function FoodDetails() {
         }
         const upQuantity = { Quantity: Quantity - 1 }
 
-        axios.post(`https://restaurant-management-server-lac.vercel.app/order`, orderDetails,{ withCredentials: true })
+        axios.post(`http://localhost:5000/order`, orderDetails,{ withCredentials: true })
             .then(res => {
                 if (res.data.acknowledged) {
                     setOrdersWithIds([...ordersWithIds, orderDetails])
@@ -93,7 +93,7 @@ export default function FoodDetails() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    axios.put(`https://restaurant-management-server-lac.vercel.app/updatequantete/${_id}`, upQuantity,{ withCredentials: true })
+                    axios.put(`http://localhost:5000/updatequantete/${_id}`, upQuantity,{ withCredentials: true })
                         .then(res => {
                             console.log(res.data)
                         })

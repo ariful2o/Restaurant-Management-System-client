@@ -28,7 +28,7 @@ export default function From() {
 
     const productDetails = { AddBy,FoodName:food_name,FoodImage:food_image,FoodCategory:category,Quantity:quantity,Price:price,FoodOrigin:food_origin,Description:description}
 
-    axios.post('https://restaurant-management-server-lac.vercel.app/newfood', productDetails,{ withCredentials: true })
+    axios.post('http://localhost:5000/newfood', productDetails,{ withCredentials: true })
       .then(function (response) {
         if (response.data.acknowledged) {
           Swal.fire({

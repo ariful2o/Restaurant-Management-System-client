@@ -10,8 +10,8 @@ import Home from "../pages/home/Home/Home";
 import AddaFoodItems from "../pages/myprofile/myProfile/AddaFood/AddaFoodItems";
 import MyOrderedFood from "../pages/myprofile/myProfile/MyOrdered/MyOrderedFood";
 import MyProfile from "../pages/myprofile/myProfile/MyProfile";
-import PrivateRoute from "../private/PrivateRoute";
 import MyAddedFoodItems from "../pages/myprofile/myProfile/myAddedFoodItems/MyAddedFoodItems";
+import PrivateRoute from "../private/PrivateRoute";
 
 
 const router = createBrowserRouter([
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       {
         path: '/foods/:id',
         element: <PrivateRoute><FoodDetails /></PrivateRoute>,
-        loader: ({ params }) => fetch(`https://restaurant-management-server-lac.vercel.app/foods/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/foods/${params.id}`)
       },
       {
         path: '/gallery',
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
       {
         path: '/myaddedfoods',
         element: <PrivateRoute><MyAddedFoodItems /></PrivateRoute>,
-        // loader: ({ params }) => fetch(`https://restaurant-management-server-lac.vercel.app/myaddfoods/${params.eamil}`)
+        // loader: ({ params }) => fetch(`http://localhost:5000/myaddfoods/${params.eamil}`)
       },
       {
         path: '/login',

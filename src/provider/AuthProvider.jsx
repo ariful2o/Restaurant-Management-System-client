@@ -88,7 +88,7 @@ export default function AuthProvider({ children }) {
             });
             return
         } else {
-            axios.post('https://restaurant-management-server-lac.vercel.app/addtocard', addCardDetails,{ withCredentials: true })
+            axios.post('http://localhost:5000/addtocard', addCardDetails,{ withCredentials: true })
                 .then(res => {
                     if (res.data.acknowledged) {
                         setAddtoCartWithIds([...addtoCartWithIds, addCardDetails])
@@ -129,13 +129,13 @@ const closeModal = () => {
                 setLoading(false);
                 console.log('============>>', currentUser)
 
-                axios.post('https://restaurant-management-server-lac.vercel.app/jwt', loginEmail, { withCredentials: true })
+                axios.post('http://localhost:5000/jwt', loginEmail, { withCredentials: true })
                     .then((res) => {
                         console.log('jwt',res.data)
                     }).catch(err => console.error(err))
 
             } else {
-                axios.post('https://restaurant-management-server-lac.vercel.app/logout', loginEmail, { withCredentials: true })
+                axios.post('http://localhost:5000/logout', loginEmail, { withCredentials: true })
                     .then((res) => {
                         console.log(res.data)
                     }).catch(err => {
@@ -150,17 +150,17 @@ const closeModal = () => {
     const fetchData = async () => {
         try {
             // Fetch all foods
-            const foodsResponse = await axios.get('https://restaurant-management-server-lac.vercel.app/foods',{ withCredentials: true });
+            const foodsResponse = await axios.get('http://localhost:5000/foods',{ withCredentials: true });
             setAllFoods(foodsResponse.data);
             // console.log('1', foodsResponse.data);
 
             // Fetch add to cart items
-            const addToCartResponse = await axios.get(`https://restaurant-management-server-lac.vercel.app/addtocard/${user?.email}`,{ withCredentials: true });
+            const addToCartResponse = await axios.get(`http://localhost:5000/addtocard/${user?.email}`,{ withCredentials: true });
             setAddtoCartWithIds(addToCartResponse.data);
             // console.log('2', addToCartResponse.data)
 
             // Fetch orders
-            const ordersResponse = await axios.get(`https://restaurant-management-server-lac.vercel.app/order/${user?.email}`,{ withCredentials: true });
+            const ordersResponse = await axios.get(`http://localhost:5000/order/${user?.email}`,{ withCredentials: true });
             setOrdersWithIds(ordersResponse.data);
             // console.log('3', ordersResponse.data);
         } catch (error) {
@@ -173,7 +173,7 @@ const closeModal = () => {
 
     useEffect(()=>{
      //get fooditems===ids from db
-        axios.post(`https://restaurant-management-server-lac.vercel.app/myaddcart/${user?.email}`, addCradIds,{ withCredentials: true })
+        axios.post(`http://localhost:5000/myaddcart/${user?.email}`, addCradIds,{ withCredentials: true })
             .then(res => {
                 if (res.data) {
                     setMyAddtoCartItems(res.data)
@@ -181,7 +181,7 @@ const closeModal = () => {
             })
             .catch(err => console.error(err))
 
-        axios.post(`https://restaurant-management-server-lac.vercel.app/orders/${user?.email}`, ordersIds,{ withCredentials: true })
+        axios.post(`http://localhost:5000/orders/${user?.email}`, ordersIds,{ withCredentials: true })
             .then(res => {
                 if (res.data) {
                     // console.log(res.data)
