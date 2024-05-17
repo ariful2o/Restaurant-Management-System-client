@@ -8,6 +8,7 @@ import ProductCard from "../../components/ProductCard";
 import StarRating from "../../components/StarRating";
 import auth from "../../firebase/firebase.init";
 import { AuthContext } from "../../provider/AuthProvider";
+import HelmetTitle from "../../components/HelmetTitle";
 
 
 export default function FoodDetails() {
@@ -113,7 +114,8 @@ export default function FoodDetails() {
 
 
     return (
-        <><BannerCommon location="Food Details"></BannerCommon><div className="w-full lg:w-11/12 mx-auto">
+        <><HelmetTitle text={'Food Details'}></HelmetTitle>
+        <BannerCommon location="Food Details"></BannerCommon><div className="w-full lg:w-11/12 mx-auto">
             <div className="flex flex-col bg-base-200 text-black border border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-200 gap-2 lg:gap-20">
 
                 <div className="w-full lg:w-1/2">

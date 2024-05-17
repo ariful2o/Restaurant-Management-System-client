@@ -4,6 +4,7 @@ import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import auth from "../../firebase/firebase.init";
 import { AuthContext } from "../../provider/AuthProvider";
+import HelmetTitle from "../../components/HelmetTitle";
 
 
 export default function Register() {
@@ -67,6 +68,7 @@ export default function Register() {
 
     return (
         <div className="w-full max-w-2xl p-8 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-10 md:my-20">
+            <HelmetTitle text={'Register'}></HelmetTitle>
             <form onSubmit={handleRegister}>
                 <h5 className="text-xl font-medium text-gray-900 dark:text-white mb-7">Sign up to our platform</h5>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">

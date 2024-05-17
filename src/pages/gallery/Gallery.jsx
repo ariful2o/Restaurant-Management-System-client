@@ -5,12 +5,14 @@ import { AuthContext } from "../../provider/AuthProvider";
 import Feature from "./Gallery/Feature";
 import GalaryCard from "./Gallery/GalaryCard";
 import ReservationBanner from "./Gallery/ReservationBanner";
+import HelmetTitle from "../../components/HelmetTitle";
 
 
 export default function Gallery() {
   const {allFoods}=useContext(AuthContext)
   return (
     <div>
+      <HelmetTitle text={'Gallery'}></HelmetTitle>
       <BannerCommon location="Gallery"></BannerCommon>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mx-auto w-full md:w-11/12">
         {

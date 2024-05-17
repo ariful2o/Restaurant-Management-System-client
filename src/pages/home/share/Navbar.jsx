@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from '../../../assets/Logo.svg';
 import AddCaetTable from "../../../components/AddCaetTable";
 import { AuthContext } from "../../../provider/AuthProvider";
 
@@ -47,7 +46,7 @@ export default function Navbar() {
     return (
 
         <>
-            <div className="navbar bg-base-100 flex justify-between">
+            <div className="navbar bg-[#292E36] text-white flex justify-between">
                 <div className="navbar-start max-w-40">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -58,7 +57,7 @@ export default function Navbar() {
                         </ul>
                     </div>
                     <Link to='/'>
-                        <img className="max-w-24 md:max-w-36" src={logo} alt="" />
+                        <img className="max-w-24 md:max-w-36" src="https://i.ibb.co/ZmTjskL/Logo.png" alt="" />
                     </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -87,10 +86,10 @@ export default function Navbar() {
                                 <span className="badge badge-sm indicator-item">{myOrdersItems.length}</span>
                             </div>
                         </div>
-                        <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-200 shadow">
+                        <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 shadow bg-black">
                             <div className="card-body">
-                                <span onClick={handleAddtocartData} className="text-lg hover:bg-base-100 py-2 rounded-xl px-2">{myAddtoCartItems.length} Items Add To Cart</span>
-                                <span onClick={handleShowOrdersData} className="hover:bg-base-100 py-2 rounded-xl px-2 text-lg">{myOrdersItems.length} Items Orders</span>
+                                <span onClick={handleAddtocartData} className="text-lg hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">{myAddtoCartItems.length} Items Add To Cart</span>
+                                <span onClick={handleShowOrdersData} className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2 text-lg">{myOrdersItems.length} Items Orders</span>
                                 <div className="card-actions">
                                     <button className="btn btn-primary btn-block">View cart</button>
                                 </div>
@@ -104,18 +103,18 @@ export default function Navbar() {
                                     <img alt="Profile" src={user?.photoURL} />
                                 </div>
                             </div>
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52 space-y-3">
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52 space-y-3 bg-black">
                                 <Link to='/myprofile'>
-                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">Profile</li>
+                                    <li className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">Profile</li>
                                 </Link>
                                 <Link to='/myaddedfooditems'>
-                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">My added food items</li>
+                                    <li className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">My added food items</li>
                                 </Link>
                                 <Link to='/addfood'>
-                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">Add a food item</li>
+                                    <li className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">Add a food item</li>
                                 </Link>
-                                <Link to='/myorderfood'>
-                                    <li className="hover:bg-base-100 py-2 rounded-xl px-2">My purchase</li>
+                                <Link to='/myorderFoods'>
+                                    <li className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">My purchase</li>
                                 </Link>
                             </ul>
                         </>}

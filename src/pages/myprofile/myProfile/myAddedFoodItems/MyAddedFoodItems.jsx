@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react"
 import { AuthContext } from "../../../../provider/AuthProvider"
 import axios from "axios"
+import HelmetTitle from "../../../../components/HelmetTitle"
 
 export default function MyAddedFoodItems() {
   const {user}=useContext(AuthContext)
@@ -13,7 +14,7 @@ export default function MyAddedFoodItems() {
   console.log(user?.email)
   return (
     <div>
-      
+      <HelmetTitle text={'My add Foods'}></HelmetTitle>
     </div>
   )
 }

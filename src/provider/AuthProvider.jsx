@@ -41,6 +41,7 @@ export default function AuthProvider({ children }) {
     const logoutUser = () => {
         signOut(auth)
             .then(() => {
+                setUser('')
                 Swal.fire({
                     position: "top-end",
                     icon: "success",

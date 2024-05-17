@@ -8,6 +8,6 @@ export default function DatePick() {
     const [startDate, setStartDate] = useState(new Date());
     
   return (
-       <DatePicker className="border border-[#FFFFFF] px-8 py-4 bg-[#292E36]"  selected={startDate} onChange={(date) => setStartDate(date)} />
+       <DatePicker className="border border-[#FFFFFF] px-8 py-4 bg-[#292E36] max-w-48"  selected={startDate} onChange={(date) => setStartDate(date)} />
   )
 }
