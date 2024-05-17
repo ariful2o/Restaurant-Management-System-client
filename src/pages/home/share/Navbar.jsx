@@ -107,8 +107,8 @@ export default function Navbar() {
                                 <Link to='/myprofile'>
                                     <li className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">Profile</li>
                                 </Link>
-                                <Link to='/myaddedfooditems'>
-                                    <li className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">My added food items</li>
+                                <Link to={`/myaddedfoods`}>
+                                    <li className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">My added Foods</li>
                                 </Link>
                                 <Link to='/addfood'>
                                     <li className="hover:bg-base-300 hover:text-black py-2 rounded-xl px-2">Add a food item</li>

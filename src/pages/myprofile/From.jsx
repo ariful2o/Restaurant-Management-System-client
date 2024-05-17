@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../provider/AuthProvider";
 
 export default function From() {
-  const {user}=useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
 
   const handleAddItem = (e) => {
@@ -20,9 +20,15 @@ export default function From() {
     const price = from.price.value
     const description = from.description.value
     const food_origin = from.food_origin.value
-    const productDetails = { name, email, food_image, food_name, category, quantity, price, description, food_origin }
 
-    axios.post('https://restaurant-management-server-lac.vercel.app/newfood', productDetails)
+    const AddBy = {
+      Name: name,
+      Email: email
+    }
+
+    const productDetails = { AddBy,FoodName:food_name,FoodImage:food_image,FoodCategory:category,Quantity:quantity,Price:price,FoodOrigin:food_origin,Description:description}
+
+    axios.post('https://restaurant-management-server-lac.vercel.app/newfood', productDetails,{ withCredentials: true })
       .then(function (response) {
         if (response.data.acknowledged) {
           Swal.fire({

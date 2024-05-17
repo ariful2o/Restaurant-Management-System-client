@@ -82,7 +82,7 @@ export default function FoodDetails() {
         }
         const upQuantity = { Quantity: Quantity - 1 }
 
-        axios.post(`https://restaurant-management-server-lac.vercel.app/order`, orderDetails)
+        axios.post(`https://restaurant-management-server-lac.vercel.app/order`, orderDetails,{ withCredentials: true })
             .then(res => {
                 if (res.data.acknowledged) {
                     setOrdersWithIds([...ordersWithIds, orderDetails])
@@ -93,7 +93,7 @@ export default function FoodDetails() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    axios.put(`https://restaurant-management-server-lac.vercel.app/updatequantete/${_id}`, upQuantity)
+                    axios.put(`https://restaurant-management-server-lac.vercel.app/updatequantete/${_id}`, upQuantity,{ withCredentials: true })
                         .then(res => {
                             console.log(res.data)
                         })
