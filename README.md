@@ -37,5 +37,3 @@ Welcome to the Restaurant Management System! This project is aimed at simplifyin
 ## License
 
 - This project is licensed under the MIT License. See the [LICENSE](https://github.com/your-username/restaurant-management/blob/main/LICENSE) file for more details.
-
-

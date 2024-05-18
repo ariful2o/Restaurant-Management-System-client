@@ -1,9 +1,9 @@
-import axios from "axios";
 import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import auth from "../firebase/firebase.init";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext(null)
 
@@ -11,7 +11,7 @@ export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [allFoods, setAllFoods] = useState([])
-
+    const axiosSecure = useAxiosSecure();
 
 
     //store ids    
@@ -88,7 +88,7 @@ export default function AuthProvider({ children }) {
             });
             return
         } else {
-            axios.post('http://localhost:5000/addtocard', addCardDetails,{ withCredentials: true })
+            axiosSecure.post('/addtocard', addCardDetails)
                 .then(res => {
                     if (res.data.acknowledged) {
                         setAddtoCartWithIds([...addtoCartWithIds, addCardDetails])
@@ -129,13 +129,13 @@ const closeModal = () => {
                 setLoading(false);
                 console.log('============>>', currentUser)
 
-                axios.post('http://localhost:5000/jwt', loginEmail, { withCredentials: true })
+                axiosSecure.post('/jwt', loginEmail)
                     .then((res) => {
                         console.log('jwt',res.data)
                     }).catch(err => console.error(err))
 
             } else {
-                axios.post('http://localhost:5000/logout', loginEmail, { withCredentials: true })
+                axiosSecure.post('/logout', loginEmail)
                     .then((res) => {
                         console.log(res.data)
                     }).catch(err => {
@@ -150,17 +150,17 @@ const closeModal = () => {
     const fetchData = async () => {
         try {
             // Fetch all foods
-            const foodsResponse = await axios.get('http://localhost:5000/foods',{ withCredentials: true });
+            const foodsResponse = await axiosSecure.get('/foods');
             setAllFoods(foodsResponse.data);
             // console.log('1', foodsResponse.data);
 
             // Fetch add to cart items
-            const addToCartResponse = await axios.get(`http://localhost:5000/addtocard/${user?.email}`,{ withCredentials: true });
+            const addToCartResponse = await axiosSecure.get(`/addtocard/${user?.email}`);
             setAddtoCartWithIds(addToCartResponse.data);
             // console.log('2', addToCartResponse.data)
 
             // Fetch orders
-            const ordersResponse = await axios.get(`http://localhost:5000/order/${user?.email}`,{ withCredentials: true });
+            const ordersResponse = await axiosSecure.get(`/order/${user?.email}`);
             setOrdersWithIds(ordersResponse.data);
             // console.log('3', ordersResponse.data);
         } catch (error) {
@@ -173,7 +173,7 @@ const closeModal = () => {
 
     useEffect(()=>{
      //get fooditems===ids from db
-        axios.post(`http://localhost:5000/myaddcart/${user?.email}`, addCradIds,{ withCredentials: true })
+     axiosSecure.post(`/myaddcart/${user?.email}`, addCradIds,)
             .then(res => {
                 if (res.data) {
                     setMyAddtoCartItems(res.data)
@@ -181,7 +181,7 @@ const closeModal = () => {
             })
             .catch(err => console.error(err))
 
-        axios.post(`http://localhost:5000/orders/${user?.email}`, ordersIds,{ withCredentials: true })
+            axiosSecure.post(`/orders/${user?.email}`, ordersIds,)
             .then(res => {
                 if (res.data) {
                     // console.log(res.data)

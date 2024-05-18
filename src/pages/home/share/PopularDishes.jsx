@@ -1,14 +1,15 @@
 
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import ProductCard from "../../../components/ProductCard"
+import useAxiosSecure from "../../../hooks/useAxiosSecure"
 
 
 export default function PopularDishes() {
     const [popularDishes,setPopularDishes]=useState([])
+    const axiosSecure = useAxiosSecure();
     useEffect(()=>{
-        axios.get('http://localhost:5000/foodslength/6',{ withCredentials: true })
+        axiosSecure.get('/foodslength/6',{ withCredentials: true })
            .then(res => {
                 setPopularDishes(res.data)
             })

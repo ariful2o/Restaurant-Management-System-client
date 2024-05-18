@@ -14,7 +14,7 @@ export default function MyOrderedFood() {
       <HelmetTitle text={'My Order Foods'}></HelmetTitle>
       <BannerCommon location="My Order Foods"></BannerCommon>
       <GetConnected />
-      <div className="bg-[#1F242C] mt-10 ">
+      <div className="bg-[#1F242C] mt-10 p-10">
         <div className="text-center text-white space-y-6">
           <h6 className="border-2 border-y-[#E1B168] border-x-0 inline-block mt-8 uppercase text-sm font-josefin">The main Food</h6>
           <h2 className="text-4xl font-bold font-cormorant text-white">Recently Orders</h2>

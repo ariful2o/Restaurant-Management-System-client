@@ -10,8 +10,12 @@ import Home from "../pages/home/Home/Home";
 import AddaFoodItems from "../pages/myprofile/myProfile/AddaFood/AddaFoodItems";
 import MyOrderedFood from "../pages/myprofile/myProfile/MyOrdered/MyOrderedFood";
 import MyProfile from "../pages/myprofile/myProfile/MyProfile";
-import MyAddedFoodItems from "../pages/myprofile/myProfile/myAddedFoodItems/MyAddedFoodItems";
 import PrivateRoute from "../private/PrivateRoute";
+import MyAddedFoodItems from "../pages/myprofile/myProfile/myAddedFoodItems/MyAddedFoodItems";
+import AboutUs from "../pages/about/AboutUs";
+import ContactUs from "../pages/contact/ContactUs";
+import Blogs from "../pages/blogs/Blogs";
+
 
 
 const router = createBrowserRouter([
@@ -52,7 +56,18 @@ const router = createBrowserRouter([
       {
         path: '/myaddedfoods',
         element: <PrivateRoute><MyAddedFoodItems /></PrivateRoute>,
-        // loader: ({ params }) => fetch(`http://localhost:5000/myaddfoods/${params.eamil}`)
+      },
+      {
+        path: '/aboutus',
+        element: <AboutUs></AboutUs>
+      },
+      {
+        path: '/contactus',
+        element: <ContactUs />
+      },
+      {
+        path: '/blogs',
+        element: <Blogs />
       },
       {
         path: '/login',
@@ -65,6 +80,5 @@ const router = createBrowserRouter([
     ]
   },
 ]);
-
 
 export default router

@@ -1,12 +1,13 @@
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useContext } from "react";
 import { RiDeleteBin2Line } from 'react-icons/ri';
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 import { AuthContext } from "../provider/AuthProvider";
 
 export default function AddCaetTable({ food, closeModal, dd }) {
+    const axiosSecure = useAxiosSecure();
     const { addtoCartWithIds, ordersWithIds, setAddtoCartWithIds } = useContext(AuthContext)
     let date;
     const addcart = addtoCartWithIds?.find(item => item.addCradId === food._id)
@@ -27,7 +28,7 @@ export default function AddCaetTable({ food, closeModal, dd }) {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(`http://localhost:5000/deleteaddtocart/${id}`)
+                axiosSecure.delete(`/deleteaddtocart/${id}`)
                     .then(res => {
                         if (res.data.acknowledged) {
                             const remaing = addtoCartWithIds.filter(item => item.addCradId != id)

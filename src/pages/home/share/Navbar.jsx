@@ -32,6 +32,9 @@ export default function Navbar() {
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/allfoods'>All Foods</Link></li>
         <li><Link to='/gallery'>Gallery</Link></li>
+        <li><Link to='/aboutus'>About Us</Link></li>
+        <li><Link to='/blogs'>Blogs</Link></li>
+        <li><Link to='/contactus'>Contact Us</Link></li>
         {
             user ? <li><Link to='/myprofile'>My Profile</Link></li>
                 : <><li><Link to='/login'>Login</Link></li><li>
@@ -52,7 +55,7 @@ export default function Navbar() {
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                         </div>
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-gray-700 rounded-box w-44">
                             {links}
                         </ul>
                     </div>

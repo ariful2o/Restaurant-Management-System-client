@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useContext } from "react";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { AuthContext } from "../../provider/AuthProvider";
 
 export default function From() {
   const { user } = useContext(AuthContext)
-
+  const axiosSecure = useAxiosSecure();
 
   const handleAddItem = (e) => {
     e.preventDefault()
@@ -28,7 +28,7 @@ export default function From() {
 
     const productDetails = { AddBy,FoodName:food_name,FoodImage:food_image,FoodCategory:category,Quantity:quantity,Price:price,FoodOrigin:food_origin,Description:description}
 
-    axios.post('http://localhost:5000/newfood', productDetails,{ withCredentials: true })
+    axiosSecure.post('/newfood', productDetails)
       .then(function (response) {
         if (response.data.acknowledged) {
           Swal.fire({

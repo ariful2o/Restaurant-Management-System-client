@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useCallback, useContext, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useLoaderData } from "react-router-dom";
@@ -8,12 +7,14 @@ import HelmetTitle from "../../components/HelmetTitle";
 import ProductCard from "../../components/ProductCard";
 import StarRating from "../../components/StarRating";
 import auth from "../../firebase/firebase.init";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { AuthContext } from "../../provider/AuthProvider";
 
 
 export default function FoodDetails() {
     const { handleAddtoCart, setOrdersWithIds, ordersWithIds, allFoods } = useContext(AuthContext)
     const [count, setCount] = useState(1)
+    const axiosSecure = useAxiosSecure();
 
     const food = useLoaderData();
     const { FoodName, FoodImage, FoodCategory, Quantity, Price, AddBy, FoodOrigin, Description, _id } = food
@@ -82,7 +83,7 @@ export default function FoodDetails() {
         }
         const upQuantity = { Quantity: Quantity - 1 }
 
-        axios.post(`http://localhost:5000/order`, orderDetails,{ withCredentials: true })
+        axiosSecure.post(`/order`, orderDetails)
             .then(res => {
                 if (res.data.acknowledged) {
                     setOrdersWithIds([...ordersWithIds, orderDetails])
@@ -93,7 +94,7 @@ export default function FoodDetails() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    axios.put(`http://localhost:5000/updatequantete/${_id}`, upQuantity,{ withCredentials: true })
+                    axiosSecure.put(`/updatequantete/${_id}`, upQuantity)
                         .then(res => {
                             console.log(res.data)
                         })
