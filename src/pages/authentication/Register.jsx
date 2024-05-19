@@ -58,7 +58,7 @@ export default function Register() {
             .catch(err => {
                 Swal.fire({
                     position: "top-end",
-                    icon: "success",
+                    icon: "error",
                     title: `${err.message}`,
                     showConfirmButton: false,
                     timer: 1500
