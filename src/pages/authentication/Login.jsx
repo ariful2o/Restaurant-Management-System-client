@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { AuthContext } from "../../provider/AuthProvider";
 import HelmetTitle from "../../components/HelmetTitle";
+import { AuthContext } from "../../provider/AuthProvider";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false)

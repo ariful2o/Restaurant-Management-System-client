@@ -1,21 +1,21 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import BannerCommon from "../../components/BannerCommon";
+import HelmetTitle from "../../components/HelmetTitle";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { AuthContext } from "../../provider/AuthProvider";
 import Feature from "./Gallery/Feature";
 import GalaryCard from "./Gallery/GalaryCard";
 import ReservationBanner from "./Gallery/ReservationBanner";
-import HelmetTitle from "../../components/HelmetTitle";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import Swal from "sweetalert2";
 
 
 export default function Gallery() {
-  const { user } = useContext(AuthContext)
-  const username = user?.displayName
-  const navigite = useNavigate()
-  const axisoSecure = useAxiosSecure()
-  const [gallery, setGallery] = useState([])
+  const {user}=useContext(AuthContext)
+  const username =user?.displayName
+  const navigite=useNavigate()
+  const axisoSecure=useAxiosSecure()
+const [gallery,setGallery]=useState([])
   const handleShowModal = () => {
     if (!user) {
       navigite('/login')
@@ -24,38 +24,39 @@ export default function Gallery() {
     document.getElementById('my_modal_3').showModal()
   }
 
-  const handlePost = (e) => {
+  const handlePost=(e)=>{
     e.preventDefault()
     const form = e.currentTarget
     // const data = Object.fromEntries(formData.entries())
-    const Name = form.username.value
-    const Photo_URL = form.photo.value
-    const Foood_Name = form.foodname.value
-    const Description = form.description.value
-    const details = { Name, Photo_URL, Foood_Name, Description }
+    const Name=form.username.value
+    const Photo_URL=form.photo.value
+    const Foood_Name=form.foodname.value
+    const Description=form.description.value
+    const details={Name,Photo_URL,Foood_Name,Description}
 
-    axisoSecure.post('/addgallery', details)
-      .then(res => {
-        setGallery([...gallery, details])
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Post Successfull",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        console.log(res.data)
-      }).catch(err => console.error(err))
-
+    axisoSecure.post('/addgallery',details)
+    .then(res=>{
+      setGallery([...gallery,details])
+      form.reset()
+      document.getElementById('my_modal_3').close()
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Post Successfull",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      console.log(res.data)
+    }).catch(err=>console.error(err))
+    
   }
 
-  useEffect(() => {
+  useEffect(()=>{
     axisoSecure.get('/gallery')
-      .then(res => {
-        setGallery(res.data)
-        console.log(res.data)
-      }).catch(err => console.error(err))
-  }, [gallery])
+    .then(res=>{
+      setGallery(res.data)
+    }).catch(err=>console.error(err))
+  },[])
   return (
     <div>
       <HelmetTitle text={'Gallery'}></HelmetTitle>

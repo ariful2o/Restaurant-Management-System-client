@@ -1,10 +1,10 @@
-import { useContext, useState } from "react"
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
+import { useContext, useState } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
+import HelmetTitle from "../../components/HelmetTitle";
 import auth from "../../firebase/firebase.init";
 import { AuthContext } from "../../provider/AuthProvider";
-import HelmetTitle from "../../components/HelmetTitle";
 
 
 export default function Register() {

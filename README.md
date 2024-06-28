@@ -5,6 +5,7 @@ Welcome to the Restaurant Management System! This project is aimed at simplifyin
 ## Live Website
 
 - Access the live version of the Restaurant Management System [here](https://restaurant-management-37bf5.web.app).
+- Access the live version of the Restaurant Management System [here](https://restaurant-management-2.netlify.app).
 
 ## Technologies Used
 
@@ -37,3 +38,8 @@ Welcome to the Restaurant Management System! This project is aimed at simplifyin
 ## License
 
 - This project is licensed under the MIT License. See the [LICENSE](https://github.com/your-username/restaurant-management/blob/main/LICENSE) file for more details.
+
+★ Assignment_category_0005
+★ client-side GitHub repository : https://github.com/Porgramming-Hero-web-course/b9a11-client-side-mohammadariful20
+★ server-side GitHub repository : https://github.com/Porgramming-Hero-web-course/b9a11-server-side-mohammadariful20
+★ live site link :https://restaurant-management-37bf5.web.app

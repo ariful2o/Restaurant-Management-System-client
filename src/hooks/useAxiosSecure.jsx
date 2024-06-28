@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 import auth from "../firebase/firebase.init";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://restaurant-management-server-lac.vercel.app',
     withCredentials: true,
 });
 
